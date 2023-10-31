@@ -3,28 +3,28 @@ package com.shelter.animalshelter.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.BotCommand;
+import com.pengrad.telegrambot.model.Chat;
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.botcommandscope.BotCommandScope;
-import com.pengrad.telegrambot.model.botcommandscope.BotCommandScopeDefault;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
+import com.shelter.animalshelter.model.User;
+import com.shelter.animalshelter.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 import javax.annotation.PostConstruct;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+
+import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.update;
 
 
 @Service
@@ -36,6 +36,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Autowired
     private TelegramBot telegramBot;
+    private UserRepository userRepository;
 
     @PostConstruct
     public void init() {
@@ -52,6 +53,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 //            Проверяю если получили сообщение /start
             switch (update.message().text()) {
                 case "/start" :
+
+                    registerUser(update.message());
+
                     SendMessage messageText = new SendMessage(chatId, "Привет я Бот, который поможет тебе обрести лучшего друга в лице животного. Пожалуйста выбери из списка приют, который тебе нужен.");
                     SendResponse response = bot.execute(messageText);
                     commandShelterList(chatId);
@@ -62,6 +66,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+
+    // метод регистрации пользователя
+
 
     private void commandShelterList(long chatId){
         List<BotCommand> botCommandList = new ArrayList<>(List.of(
@@ -86,10 +93,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    private void commandShelterList(long chatId) {
+    private void registerUser(Message msg){
+        if (userRepository.existsById(msg.getChatId()).isEmpty()){
+           long chatId = msg.getChatId();
+            var chat = msg.getChat();
 
+            User user = new User();
 
+            user.setChatId(chatId);
+            user.setFirstName(chat.getFirstName);
+            user.setLastName(chat.getLastName());
+            user.setUserName(chat.getUserName());
+            user.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
 
+            userRepository.save(user);
+        }
 
     }
-}
+
+
