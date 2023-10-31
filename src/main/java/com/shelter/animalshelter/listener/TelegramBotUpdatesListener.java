@@ -55,14 +55,20 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     SendMessage messageText = new SendMessage(chatId, "Привет я Бот, который поможет тебе обрести лучшего друга в лице животного. Пожалуйста выбери из списка приют, который тебе нужен.");
                     SendResponse response = bot.execute(messageText);
                     commandShelterList(chatId);
-
-
             }
 
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
+    /**
+     * Метод формирует команды для выбора приюта (кошек или собак) - начальное меню.
+     * <br>
+     * Используются классы {@link BotCommand}, {@link SetMyCommands}
+     * <br>
+     * {@link BaseResponse} формирует команды с использованием {@link StringBuilder} и в консоль выводится сообщение об успешном установлении команд или об ошибке.
+     * @param chatId
+     */
     private void commandShelterList(long chatId){
         List<BotCommand> botCommandList = new ArrayList<>(List.of(
                 new BotCommand("/cats", "Приют для кошек"),
@@ -84,13 +90,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         } else {
             System.out.println("Ошибка установки команд: " + response.description());
         }
-    }
-
-    private void introduceShelters(long chatId) {
-
-
-
-
     }
 }
 
