@@ -2,6 +2,7 @@ package com.shelter.animalshelter.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -9,21 +10,21 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "chat_id")
     private long chatId;
-
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
-
+    @Column(name = "user_name")
     private String userName;
 
-    private Timestamp registeredAt;          // время когда пользователь начал общаться с ботом.
+    @Column(name = "registration_date")
+    // сделала LocalDateTime вместо TimeStamp чтобы не возникло проблем с конвертацией и несовместимостью типов
+    private LocalDateTime registeredAt;          // время когда пользователь начал общаться с ботом.
 
-    public User(long chatId, String firstName, String lastName, String userName, Timestamp registeredAt) {
-        this.chatId = chatId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.registeredAt = registeredAt;
+    public User() {
     }
 
     public long getChatId() {
@@ -58,11 +59,11 @@ public class User {
         this.userName = userName;
     }
 
-    public Timestamp getRegisteredAt() {
+    public LocalDateTime getRegisteredAt() {
         return registeredAt;
     }
 
-    public void setRegisteredAt(Timestamp registeredAt) {
+    public void setRegisteredAt(LocalDateTime registeredAt) {
         this.registeredAt = registeredAt;
     }
 

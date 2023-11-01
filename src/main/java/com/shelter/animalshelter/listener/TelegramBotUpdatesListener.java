@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,15 +52,21 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 //            Объявила переменные для имени и номера чата
             long chatId = update.message().chat().id();
             String userName = update.message().chat().firstName();
+            Chat userChat = update.message().chat();
 //            Проверяю если получили сообщение /start
             switch (update.message().text()) {
-                case "/start" :
+                case "/start":
+                    if (!checkIfUserRegistered(userChat)) {
+                        SendMessage messageText = new SendMessage(chatId, "Привет я Бот, который поможет тебе обрести лучшего друга в лице животного. Пожалуйста выбери из списка приют, который тебе нужен.");
+                        SendResponse response = bot.execute(messageText);
+                        commandShelterList(chatId);
+                    } else {
+//                        Приветствие для старого пользователя
+                        System.out.println();
+                    }
 
-                    registerUser(update.message());
 
-                    SendMessage messageText = new SendMessage(chatId, "Привет я Бот, который поможет тебе обрести лучшего друга в лице животного. Пожалуйста выбери из списка приют, который тебе нужен.");
-                    SendResponse response = bot.execute(messageText);
-                    commandShelterList(chatId);
+
 
 
             }
@@ -70,7 +78,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     // метод регистрации пользователя
 
 
-    private void commandShelterList(long chatId){
+    private void commandShelterList(long chatId) {
         List<BotCommand> botCommandList = new ArrayList<>(List.of(
                 new BotCommand("/cats", "Приют для кошек"),
                 new BotCommand("/dogs", "Приют для собак")
@@ -93,22 +101,30 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    private void registerUser(Message msg){
-        if (userRepository.existsById(msg.getChatId()).isEmpty()){
-           long chatId = msg.getChatId();
-            var chat = msg.getChat();
+    private void registerUser(Chat chat) {
+        LocalDateTime currentTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        User user = new User();
 
-            User user = new User();
+        user.setChatId(chat.id());
+        user.setFirstName(chat.firstName());
+        user.setLastName(chat.lastName());
+        user.setUserName(chat.username());
+        user.setRegisteredAt(currentTime);
 
-            user.setChatId(chatId);
-            user.setFirstName(chat.getFirstName);
-            user.setLastName(chat.getLastName());
-            user.setUserName(chat.getUserName());
-            user.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
-
-            userRepository.save(user);
-        }
-
+        userRepository.save(user);
     }
+
+    private boolean checkIfUserRegistered(Chat chat) {
+        if (userRepository.existsById(chat.id())) {
+            return true;
+        } else {
+            registerUser(chat);
+            return false;
+        }
+    }
+}
+
+
+
 
 

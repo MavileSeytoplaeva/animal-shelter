@@ -10,5 +10,5 @@ import com.shelter.animalshelter.model.User;
 public interface UserRepository extends JpaRepository <User, Long> {
 
 
-    boolean existsById();
+    boolean existsById(long chatId);
 }
