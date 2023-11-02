@@ -2,6 +2,7 @@ package com.shelter.animalshelter.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -9,30 +10,15 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "chat_id")
     private long chatId;
-
+    private String userName;
     private String firstName;
     private String lastName;
 
-    private String userName;
-
-    private Timestamp registeredAt;          // время когда пользователь начал общаться с ботом.
-
-    public User(long chatId, String firstName, String lastName, String userName, Timestamp registeredAt) {
-        this.chatId = chatId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.registeredAt = registeredAt;
-    }
-
-    public long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(long chatId) {
-        this.chatId = chatId;
-    }
+    private LocalDateTime RegisteredAt;
 
     public String getFirstName() {
         return firstName;
@@ -50,6 +36,39 @@ public class User {
         this.lastName = lastName;
     }
 
+    public LocalDateTime getRegisteredAt() {
+        return RegisteredAt;
+    }
+
+    public void setRegisteredAt(LocalDateTime registeredAt) {
+        RegisteredAt = registeredAt;
+    }
+
+    public User() {
+
+    }
+
+    public User(long chatId) {
+        this.chatId = chatId;
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(long chatId) {
+        this.chatId = chatId;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -58,22 +77,19 @@ public class User {
         this.userName = userName;
     }
 
-    public Timestamp getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public void setRegisteredAt(Timestamp registeredAt) {
-        this.registeredAt = registeredAt;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId() == user.getId();
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "chatId=" + chatId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", registeredAt=" + registeredAt +
-                '}';
+    public int hashCode() {
+        return Objects.hash(getId());
     }
+
+
 }
+
