@@ -6,6 +6,8 @@ import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.botcommandscope.BotCommandScope;
+import com.pengrad.telegrambot.model.botcommandscope.BotCommandScopeDefault;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
@@ -17,14 +19,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 
 
 import javax.annotation.PostConstruct;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Set;
+
 
 import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.update;
 
@@ -33,8 +43,6 @@ import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.upda
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-    @Value("${telegram.bot.token}")
-    TelegramBot bot = new TelegramBot("${telegram.bot.token}");
 
     @Autowired
     private TelegramBot telegramBot;
@@ -75,10 +83,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    // метод регистрации пользователя
-
-
-    private void commandShelterList(long chatId) {
+    /**
+     * Метод формирует команды для выбора приюта (кошек или собак) - начальное меню.
+     * <br>
+     * Используются классы {@link BotCommand}, {@link SetMyCommands}
+     * <br>
+     * {@link BaseResponse} формирует команды с использованием {@link StringBuilder} и в консоль выводится сообщение об успешном установлении команд или об ошибке.
+     * @param chatId
+     */
+    private void commandShelterList(long chatId){
         List<BotCommand> botCommandList = new ArrayList<>(List.of(
                 new BotCommand("/cats", "Приют для кошек"),
                 new BotCommand("/dogs", "Приют для собак")
@@ -100,6 +113,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             System.out.println("Ошибка установки команд: " + response.description());
         }
     }
+
 
     private void registerUser(Chat chat) {
         LocalDateTime currentTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
@@ -124,4 +138,3 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     }
 
 }
-
