@@ -43,7 +43,8 @@ import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.upda
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-
+    @Value("${telegram.bot.token}")
+    TelegramBot bot = new TelegramBot("${telegram.bot.token}");
     @Autowired
     private TelegramBot telegramBot;
     private UserRepository userRepository;
@@ -108,6 +109,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 messageText.append(command.command()).append(" - ").append(command.description()).append("\n");
             }
             SendMessage sendMessage = new SendMessage(chatId, messageText.toString());
+
             SendResponse sendResponse = bot.execute(sendMessage);
         } else {
             System.out.println("Ошибка установки команд: " + response.description());
