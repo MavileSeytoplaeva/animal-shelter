@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-animalShelter.yaml
+  - changeSet:
+      id: 1
+      author: mavile
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: chat_id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: registration_date
+                  type: DateTime
+                  constraints:
+                    nullable: false
