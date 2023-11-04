@@ -1,7 +1,6 @@
 package com.shelter.animalshelter.model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -24,9 +23,9 @@ public class User {
     // сделала LocalDateTime вместо TimeStamp чтобы не возникло проблем с конвертацией и несовместимостью типов
     private LocalDateTime registeredAt;          // время когда пользователь начал общаться с ботом.
 
-    public User() {
-    }
+    public void user() {
 
+    }
     public long getChatId() {
         return chatId;
     }
@@ -68,6 +67,19 @@ public class User {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return chatId == user.chatId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userName, user.userName) && Objects.equals(registeredAt, user.registeredAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(chatId, firstName, lastName, userName, registeredAt);
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "chatId=" + chatId +
@@ -78,3 +90,4 @@ public class User {
                 '}';
     }
 }
+

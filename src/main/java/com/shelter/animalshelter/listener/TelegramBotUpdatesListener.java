@@ -4,29 +4,22 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Chat;
-import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
-import com.shelter.animalshelter.model.User;
 import com.shelter.animalshelter.repository.UserRepository;
+import com.shelter.animalshelter.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-
 import javax.annotation.PostConstruct;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-
-import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.update;
 
 
 @Service
@@ -38,11 +31,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Autowired
     private TelegramBot telegramBot;
+    @Autowired
+    private MenuService menuService;
     private UserRepository userRepository;
 
     @PostConstruct
     public void init() {
         telegramBot.setUpdatesListener(this);
+
     }
 
     @Override
@@ -56,17 +52,32 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 //            Проверяю если получили сообщение /start
             switch (update.message().text()) {
                 case "/start":
-                    if (!checkIfUserRegistered(userChat)) {
-                        SendMessage messageText = new SendMessage(chatId, "Привет я Бот, который поможет тебе обрести лучшего друга в лице животного. Пожалуйста выбери из списка приют, который тебе нужен.");
-                        SendResponse response = bot.execute(messageText);
-                        commandShelterList(chatId);
-                    } else {
+                    // if (!checkIfUserRegistered(userChat)) {
+                    SendMessage messageText = new SendMessage(chatId, "Привет я Бот, который поможет тебе обрести лучшего друга в лице животного. Пожалуйста выбери из списка приют, который тебе нужен.");
+                    SendResponse response = bot.execute(messageText);
+                    commandShelterList(chatId);
+                    break;
+                //Выбор приюта
+                case "/shalter_cats":
+                    menuService.getCatMenu(chatId);
+                    break;
+                case "/shalter_dogs":
+                    menuService.getDogMenu(chatId);
+                    break;
+                case "/info_shelter":
+                    menuService.getInfoAboutShelter(chatId);
+                    break;
+                case "/info_take_animal":
+                    menuService.getInfoAboutTakeAnimal(chatId, true);
+                    break;
+                case "/info_take_animal_false":
+                    menuService.getInfoAboutTakeAnimal(chatId, false);
+                    break;
+
+                /*    } else {
 //                        Приветствие для старого пользователя
                         System.out.println();
-                    }
-
-
-
+                    }*/
 
 
             }
@@ -80,8 +91,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private void commandShelterList(long chatId) {
         List<BotCommand> botCommandList = new ArrayList<>(List.of(
-                new BotCommand("/cats", "Приют для кошек"),
-                new BotCommand("/dogs", "Приют для собак")
+                new BotCommand("/shalter_cats", "Приют для кошек"),
+                new BotCommand("/shalter_dogs", "Приют для собак")
+                //        new BotCommand("/start","/shalter_cat or /shalter_dog"),
+                //    new BotCommand("/shalter_cat","asd")
+                //  new BotCommand("/shalter_dogs", "Приют для собак")
         ));
         BotCommand[] botCommands = botCommandList.toArray(new BotCommand[0]);
         SetMyCommands myCommands = new SetMyCommands(botCommands);
@@ -101,7 +115,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    private void registerUser(Chat chat) {
+/*    private void registerUser(Chat chat) {
         LocalDateTime currentTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         User user = new User();
 
@@ -121,7 +135,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             registerUser(chat);
             return false;
         }
-    }
+    }*/
 }
 
 
