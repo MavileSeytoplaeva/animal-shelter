@@ -64,12 +64,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 case "/shalter_dogs":
                     menuService.getDogMenu(chatId);
                     break;
+                //--------Должно быть после выбора приюта------
                 case "/info_shelter":
                     menuService.getInfoAboutShelter(chatId);
                     break;
                 case "/info_take_animal":
                     menuService.getInfoAboutTakeAnimal(chatId, true);
                     break;
+                //-----------                   ---------------------
                 case "/info_take_animal_false":
                     menuService.getInfoAboutTakeAnimal(chatId, false);
                     break;
@@ -92,7 +94,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void commandShelterList(long chatId) {
         List<BotCommand> botCommandList = new ArrayList<>(List.of(
                 new BotCommand("/shalter_cats", "Приют для кошек"),
-                new BotCommand("/shalter_dogs", "Приют для собак")
+                new BotCommand("/shalter_dogs", "Приют для собак"),
+                new BotCommand("/info_shelter", "Информация о приюте"),
+                new BotCommand("/info_take_animal", "Как взять питомца"),
+                //______________________------------------------________________________
+                new BotCommand("/info_take_animal_false", "Приют для кошек")
                 //        new BotCommand("/start","/shalter_cat or /shalter_dog"),
                 //    new BotCommand("/shalter_cat","asd")
                 //  new BotCommand("/shalter_dogs", "Приют для собак")
