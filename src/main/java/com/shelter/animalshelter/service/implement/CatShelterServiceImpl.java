@@ -25,7 +25,7 @@ public class CatShelterServiceImpl implements ShelterService<CatShelter, Cat> {
     @Override
     public CatShelter updateShelter(CatShelter catShelter) {
         CatShelter currentShelter = getSheltersId(catShelter.getId());
-        //EntityUtils.copyNonNullFields(catShelter, currentShelter);
+        EntityUtils.copyNonNullFields(catShelter, currentShelter);
         return catRepository.save(currentShelter);
     }
 
