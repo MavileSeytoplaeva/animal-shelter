@@ -1,44 +1,30 @@
 package com.shelter.animalshelter.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long telegramId;
 
     @Column
     private String firstName;
 
-    @Column
-    private String lastName;
 
-    @Column
-    private String phone;
-
-    @Column
-    private String shelterType;
-
-    @Column
-    private String shelterName;
-
-    public User(Long telegramId, String firstName, String lastName, String phone) {
+    public User(Long telegramId, String firstName) {
         this.telegramId = telegramId;
         this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
+
     }
 }
 

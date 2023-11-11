@@ -28,9 +28,6 @@ public class Cat {
     @Column
     private Boolean vaccinated;
 
-    @Column(name = "owner_id")
-    private Long ownerId;
-
     @Column(name = "shelter_id")
     private Long shelterId;
 

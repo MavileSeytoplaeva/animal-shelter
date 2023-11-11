@@ -26,6 +26,7 @@ public class CatShelter {
 
     @Column
     private String location;
+
     // Расписание работы приюта
 
     @Column
@@ -45,6 +46,7 @@ public class CatShelter {
 
     @Column
     private String security;
+
     // Рекомендации о технике безопасности на территории приюта
 
     @Column(name = "safety_advice")
