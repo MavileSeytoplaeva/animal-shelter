@@ -15,7 +15,7 @@ public interface UserService {
 
     // Получение выбранного в боте приюта по id пользователя
 
-    String getShelterById(Long id);
+   // String getShelterById(Long id);
 
     //return Список всех пользователей
          List<User> getAll();
