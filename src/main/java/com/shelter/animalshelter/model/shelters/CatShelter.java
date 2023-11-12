@@ -1,6 +1,6 @@
 package com.shelter.animalshelter.model.shelters;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.shelter.animalshelter.model.animals.Cat;
