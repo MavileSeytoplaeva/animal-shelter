@@ -11,4 +11,5 @@ public interface CatRepository extends JpaRepository<Cat, Long> {
 
     List<Cat> findAllById(Long id); // Поиск котов по Id
 
+
 }

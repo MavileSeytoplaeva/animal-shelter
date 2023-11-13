@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class DogShelterServiceImpl implements ShelterService<DogShelter, Dog> {
+public class DogShelterServiceImpl implements ShelterService<DogShelter,  Dog> {
 
     private final DogSheltersRepository dogRepository;
 
@@ -33,7 +33,7 @@ public class DogShelterServiceImpl implements ShelterService<DogShelter, Dog> {
     public DogShelter getSheltersId(long id) {
         Optional<DogShelter> shelterId = dogRepository.findById(id);
         if (shelterId.isEmpty()) {
-            throw new NotFoundException("Приют не найден. Собачки остались без дома");
+            throw new NotFoundException("Приют не найден. Собаки остались без дома");
         }
         return shelterId.get();
     }
@@ -42,7 +42,7 @@ public class DogShelterServiceImpl implements ShelterService<DogShelter, Dog> {
     public DogShelter getShelterByName(String name) {
         Optional<DogShelter> shelterId = dogRepository.findByName(name);
         if (shelterId.isEmpty()) {
-            throw new NotFoundException("Приют не найден. Собачки остались без дома");
+            throw new NotFoundException("Приют не найден. Собаки остались без дома");
         }
         return shelterId.get();
     }
@@ -66,7 +66,7 @@ public class DogShelterServiceImpl implements ShelterService<DogShelter, Dog> {
             dogRepository.deleteById(index);
             result = "Запись удалена";
         } else {
-            throw new NotFoundException("Собачки без приюта. Мы его не нашли(");
+            throw new NotFoundException("Собаки без приюта. Мы его не нашли(");
         }
         return result;
     }
