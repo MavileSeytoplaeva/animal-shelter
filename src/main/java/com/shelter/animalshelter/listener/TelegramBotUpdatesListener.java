@@ -9,7 +9,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
-import com.shelter.animalshelter.model.User;
 import com.shelter.animalshelter.repository.UserRepository;
 import com.shelter.animalshelter.service.MenuService;
 import org.slf4j.Logger;
@@ -55,7 +54,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 //            Проверяю если получили сообщение /start
             switch (update.message().text()) {
                 case "/start":
-                   // if (!checkIfUserRegistered(userChat)) {
+                  //  if (!checkIfUserRegistered(userChat)) {
 
                     SendMessage messageText = new SendMessage(chatId, "Привет я Бот, который поможет тебе обрести лучшего друга в лице животного. Пожалуйста выбери из списка приют, который тебе нужен.");
                     SendResponse response = bot.execute(messageText);
