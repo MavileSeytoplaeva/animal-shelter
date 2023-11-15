@@ -1,15 +1,16 @@
 package com.shelter.animalshelter.controller;
 
-import com.shelter.animalshelter.exceptions.UserNotFoundException;
+import com.shelter.animalshelter.model.AnimalAdopter;
 import com.shelter.animalshelter.model.User;
-import com.shelter.animalshelter.service.UserService;
+import com.shelter.animalshelter.service.AnimalAdopterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import liquibase.pro.packaged.L;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +20,22 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/adopter")
+public class AnimalAdopterController {
 
-    private UserService userService;
+    private AnimalAdopterService animalAdopterService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public AnimalAdopterController(AnimalAdopterService animalAdopterService) {
+        this.animalAdopterService = animalAdopterService;
     }
 
     @Operation(
             requestBody = @RequestBody,
-            summary = "Записывает данные пользователя в БД",
+            summary = "Записывает данные усыновителя в БД",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Возвращает объект созданного пользователя",
+                            description = "Возвращает объект созданного усыновителя",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = User.class))
@@ -45,21 +46,20 @@ public class UserController {
                             description = "Ошибка на стороне сервера"
                     )
             },
-            tags = "Users"
+            tags = "Adopters"
     )
     @PostMapping
-//    public ResponseEntity<User> createUser(@Parameter(name = "Объект пользователя") @org.springframework.web.bind.annotation.RequestBody User user) {
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.createUser(user));
+    public ResponseEntity<AnimalAdopter> createAnimalAdopter(@Parameter(name = "Объект пользователя") @RequestBody AnimalAdopter animalAdopter) {
+        return ResponseEntity.ok(animalAdopterService.createAnimalAdopter(animalAdopter));
     }
 
     @Operation(
             requestBody = @RequestBody,
-            summary = "Редактирует данные пользователя в БД",
+            summary = "Редактирует данные усыновителя в БД",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Возвращает объект редактируемого пользователя",
+                            description = "Возвращает объект редактируемого усыновителя",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = User.class))
@@ -70,19 +70,19 @@ public class UserController {
                             description = "Ошибка на стороне сервера"
                     )
             },
-            tags = "Users"
+            tags = "Adopters"
     )
     @PutMapping
-    public ResponseEntity<User> updateUser(@Parameter(name = "Объект пользователя") @RequestBody User user) {
-        return ResponseEntity.ok(userService.updateUser(user));
+    public ResponseEntity<AnimalAdopter> editAnimalAdopter(@Parameter(name = "Объект пользователя") @org.springframework.web.bind.annotation.RequestBody AnimalAdopter animalAdopter) {
+        return ResponseEntity.ok(animalAdopterService.editAnimalAdopter(animalAdopter));
     }
 
     @Operation(
-            summary = "Поиск пользователя в БД по id",
+            summary = "Поиск усыновителя в БД по id",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Возвращает найденного пользователя",
+                            description = "Возвращает найденного усыновителя",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = User.class))
@@ -90,23 +90,23 @@ public class UserController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Не удалось найти пользователя"
+                            description = "Не удалось найти усыновителя"
                     )
             },
-            tags = "Users"
+            tags = "Adopters"
     )
     @GetMapping("/{id}")
-    public ResponseEntity<User> findUser(@PathVariable long id) {
+    public ResponseEntity<AnimalAdopter> findAnimalAdopter(@PathVariable Long id) {
         try {
-            userService.findUser(id);
+            animalAdopterService.findAnimalAdopter(id);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userService.findUser(id));
+        return ResponseEntity.ok(animalAdopterService.findAnimalAdopter(id));
     }
 
     @Operation(
-            summary = "Удаляет пользователя из БД по id",
+            summary = "Удаляет усыновителя из БД по id",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -114,15 +114,15 @@ public class UserController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Не удалось найти пользователя"
+                            description = "Не удалось найти усыновителя"
                     )
             },
-            tags = "Users"
+            tags = "Adopters"
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
+    ResponseEntity<Void> deleteAnimalAdopter(@PathVariable Long id) {
         try {
-            userService.deleteUser(id);
+            animalAdopterService.deleteAnimalAdopter(id);
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
@@ -130,7 +130,8 @@ public class UserController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<AnimalAdopter>> getAll() {
+        return ResponseEntity.ok(animalAdopterService.getAllAdopters());
     }
+
 }
