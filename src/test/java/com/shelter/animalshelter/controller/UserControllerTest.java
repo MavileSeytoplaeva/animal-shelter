@@ -1,6 +1,7 @@
 package com.shelter.animalshelter.controller;
 
 import com.shelter.animalshelter.model.User;
+import com.shelter.animalshelter.repository.AnimalAdopterRepository;
 import com.shelter.animalshelter.repository.UserRepository;
 import com.shelter.animalshelter.service.UserService;
 import net.minidev.json.JSONObject;
@@ -33,11 +34,14 @@ public class UserControllerTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private AnimalAdopterRepository animalAdopterRepository;
+
     @SpyBean
     private UserService userService;
 
     @Test
-    public void getFacultyTest() throws Exception {
+    public void getUserTest() throws Exception {
         String dateString = "05.11.2023 19:45";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         LocalDateTime date = LocalDateTime.parse(dateString, formatter);
