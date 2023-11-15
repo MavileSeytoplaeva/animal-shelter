@@ -44,15 +44,9 @@ public class UserServiceImpl implements UserService {
         EntityUtils.copyNonNullFields(user, currentUser);
         return userRepository.save(currentUser);
     }
-
     @Override
-    public void delete(User user) {
-        userRepository.delete(getById(user.getTelegramId()));
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        userRepository.deleteById(getById(id).getTelegramId());
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
 

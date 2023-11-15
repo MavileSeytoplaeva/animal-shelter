@@ -21,13 +21,7 @@ public interface UserService {
          List<User> getAll();
 
     //Изменение пользователя
-
     User update(User user);
-
-    // Удаление
-    void delete(User user);
-
     //Удаление пользователя по id
-
-    void deleteById(Long id);
+    void deleteUser(Long id);
 }

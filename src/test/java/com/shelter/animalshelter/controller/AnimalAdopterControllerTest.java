@@ -1,9 +1,8 @@
 package com.shelter.animalshelter.controller;
 
 import com.shelter.animalshelter.model.AnimalAdopter;
-import com.shelter.animalshelter.model.User;
 import com.shelter.animalshelter.repository.AnimalAdopterRepository;
-import com.shelter.animalshelter.service.AnimalAdopterService;
+import com.shelter.animalshelter.service.implement.AnimalAdopterServiceImlp;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +31,7 @@ class AnimalAdopterControllerTest {
     private AnimalAdopterRepository animalAdopterRepository;
 
     @SpyBean
-    private AnimalAdopterService animalAdopterService;
+    private AnimalAdopterServiceImlp animalAdopterServiceImlp;
 
     private Long chatId = 1L;
     private String name = "Усыновитель";
