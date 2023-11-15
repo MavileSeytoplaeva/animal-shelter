@@ -4,25 +4,34 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Chat;
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
+import com.shelter.animalshelter.model.AnimalAdopter;
+import com.shelter.animalshelter.repository.AnimalAdopterRepository;
 import com.shelter.animalshelter.repository.UserRepository;
 import com.shelter.animalshelter.service.MenuService;
+import com.shelter.animalshelter.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.insertModifierPriority;
+import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.update;
 
 
 @Service
@@ -36,7 +45,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private TelegramBot telegramBot;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private UserService userService;
     private UserRepository userRepository;
+
+    @Autowired
+    private AnimalAdopterRepository animalAdopterRepository;
 
     @PostConstruct
     public void init() {
@@ -51,11 +65,17 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             long chatId = update.message().chat().id();
             String userName = update.message().chat().firstName();
             Chat userChat = update.message().chat();
+            String message = update.message().text();
+            if (message == null) {
+                userService.registerAdopter(message);
+            }
+
+
 //            Проверяю если получили сообщение /start
             switch (update.message().text()) {
                 case "/start":
-                  //  if (!checkIfUserRegistered(userChat)) {
-
+//                    menuService.getStartMenuShelter(chatId);
+                    // if (!checkIfUserRegistered(userChat)) {
                     SendMessage messageText = new SendMessage(chatId, "Привет я Бот, который поможет тебе обрести лучшего друга в лице животного. Пожалуйста выбери из списка приют, который тебе нужен.");
                     SendResponse response = bot.execute(messageText);
                     commandShelterList(chatId);
@@ -78,10 +98,20 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 case "/info_take_animal_false":
                     menuService.getInfoAboutTakeAnimal(chatId, false);
                     break;
+//                case "/yes":
+
+
+                /* Если пользователь согласен со всем то предложить ему
+                                                     записать контактные данные для связи.
+//                     case "/yes" -> userService.registerAdopter(message);
+                 */
+                /*    } else {
+//                        Приветствие для старого пользователя
+                        System.out.println();
+                    }*/
 
 
             }
-
 
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
@@ -110,7 +140,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         BotCommand[] botCommands = botCommandList.toArray(new BotCommand[0]);
         SetMyCommands myCommands = new SetMyCommands(botCommands);
 
-
         BaseResponse response = bot.execute(myCommands);
         if (response.isOk()) {
             System.out.println("Команды успешно установлены!");
@@ -126,27 +155,27 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-   //private void registerUser(Chat chat) {
-   //     LocalDateTime currentTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-   //     User user = new User();
-//
-   //         user.setChatId(chatId);
-   //         user.setFirstName(chat.getFirstName);
-   //         user.setLastName(chat.getLastName());
-   //         user.setUserName(chat.getUserName());
-   //         user.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
-//
-   //         userRepository.save(user);
-   //     }
-//
-   // private boolean checkIfUserRegistered(Chat chat) {
-   //     if (userRepository.existsById(chat.id())) {
-   //         return true;
-   //     } else {
-   //         registerUser(chat);
-   //         return false;
-   //     }
-   // }
+/*    private void registerUser(Chat chat) {
+        LocalDateTime currentTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        User user = new User();
+
+            user.setChatId(chatId);
+            user.setFirstName(chat.getFirstName);
+            user.setLastName(chat.getLastName());
+            user.setUserName(chat.getUserName());
+            user.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
+
+            userRepository.save(user);
+        }
+
+    private boolean checkIfUserRegistered(Chat chat) {
+        if (userRepository.existsById(chat.id())) {
+            return true;
+        } else {
+            registerUser(chat);
+            return false;
+        }
+    }*/
 }
 
 

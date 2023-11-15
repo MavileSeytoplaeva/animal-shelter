@@ -22,18 +22,18 @@ public class MenuService {
     }
 
     //    @Override
-    public SendMessage getFirstStartMenuShelter(Long chatId) {
+//    public SendMessage getFirstStartMenuShelter(Long chatId) {
+//
+//        InlineKeyboardMarkup keyboard = keyboardUtil.setKeyboard(CAT, DOG);
+//
+//        SendMessage sendMessage = new SendMessage(chatId, "Добро пожаловать в наш приют! Если вы ищете верного и преданного друга, то пришли по адресу! " +
+//                " Вы хотите подружиться с кошкой или с " +
+//                "собакой? Пожалуйста, выберите подходящий приют, чтобы узнать больше.").replyMarkup(keyboard);
+//        telegramBot.execute(sendMessage);
+//        return sendMessage;
+//    }
 
-        InlineKeyboardMarkup keyboard = keyboardUtil.setKeyboard(CAT, DOG);
-
-        SendMessage sendMessage = new SendMessage(chatId, "Добро пожаловать в наш приют! Если вы ищете верного и преданного друга, то пришли по адресу! " +
-                " Вы хотите подружиться с кошкой или с " +
-                "собакой? Пожалуйста, выберите подходящий приют, чтобы узнать больше.").replyMarkup(keyboard);
-        telegramBot.execute(sendMessage);
-        return sendMessage;
-    }
-
-  /*  // @Override
+//  /*  // @Override
     public SendMessage getStartMenuShelter(Long chatId) {
 
         InlineKeyboardMarkup keyboard = keyboardUtil.setKeyboard(CAT, DOG);
@@ -41,7 +41,10 @@ public class MenuService {
         SendMessage sendMessage = new SendMessage(chatId, "Рады видеть Вас снова! Выберите приют").replyMarkup(keyboard);
         telegramBot.execute(sendMessage);
         return sendMessage;
-    }*/
+    }
+//    }*/
+
+
 
 
     public SendMessage getCatMenu(Long chatId) {
