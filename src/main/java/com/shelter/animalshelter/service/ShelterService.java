@@ -23,7 +23,7 @@ public interface ShelterService<T, D> {
 
     // Выдача списка животных приютов
 
-    List<D> getAnimal(long index);
+  //  List<D> getAnimal(long index);
 
 
     //Удаление приюта

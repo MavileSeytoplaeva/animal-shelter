@@ -59,10 +59,10 @@ public class CatSheltersController {
         return (catShelterService.getSheltersId(id));
     }
 
-    @GetMapping("/list{id}")
-    public List<Cat> getAnimal(@PathVariable @Parameter(description = "id приюта") long id) {
-        return catShelterService.getAnimal(id);
-    }
+  //  @GetMapping("/list{id}")
+  //  public List<Cat> getAnimal(@PathVariable @Parameter(description = "id приюта") long id) {
+  //      return catShelterService.getAnimal(id);
+  //  }
 
     @DeleteMapping("/{id}")
 

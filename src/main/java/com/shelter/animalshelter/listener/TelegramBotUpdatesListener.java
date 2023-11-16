@@ -66,9 +66,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             String userName = update.message().chat().firstName();
             Chat userChat = update.message().chat();
             String message = update.message().text();
-            if (message == null) {
-                userService.registerAdopter(message);
-            }
+
 
 
 //            Проверяю если получили сообщение /start

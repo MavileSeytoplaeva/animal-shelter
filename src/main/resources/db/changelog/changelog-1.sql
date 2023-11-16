@@ -16,7 +16,10 @@ create table cat_shelter
     name          varchar(255),
     safety_advice varchar(255),
     security      varchar(255),
-    timetable     varchar(255)
+    timetable     varchar(255),
+    cat_id bigint
+            constraint cat_cat_cat_id_fk
+                references cat
 );
 
 create table dog_shelter
@@ -39,9 +42,7 @@ create table cat
     is_healthy boolean,
     vaccinated boolean,
 
-    shelter_id bigint
-        constraint cat_cat_shelter_id_fk
-            references cat_shelter
+
 );
 
 create table dog

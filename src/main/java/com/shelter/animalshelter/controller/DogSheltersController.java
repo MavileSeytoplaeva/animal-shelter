@@ -70,13 +70,13 @@ public class DogSheltersController {
         return dogShelterService.getShelter();
     }
 
-    @GetMapping("/list{id}")
-    @Operation(
-            summary = "Список животных приюта"
-    )
-    public List<Dog> getAnimal(@PathVariable @Parameter(description = "id приюта") long id) {
-        return dogShelterService.getAnimal(id);
-    }
+  //  @GetMapping("/list{id}")
+  //  @Operation(
+  //          summary = "Список животных приюта"
+  //  )
+  //  public List<Dog> getAnimal(@PathVariable @Parameter(description = "id приюта") long id) {
+  //      return dogShelterService.getAnimal(id);
+  //  }
 
     @GetMapping("/id{id}")
     @Operation(

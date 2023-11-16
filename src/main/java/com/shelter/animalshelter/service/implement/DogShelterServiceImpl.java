@@ -52,10 +52,10 @@ public class DogShelterServiceImpl implements ShelterService<DogShelter,  Dog> {
         return dogRepository.findAll();
     }
 
-    @Override
-    public List<Dog> getAnimal(long index) {
-        return getSheltersId(index).getList();
-    }
+  //  @Override
+  //  public List<Dog> getAnimal(long index) {
+  //      return getSheltersId(index).getList();
+  //  }
 
 
     @Override

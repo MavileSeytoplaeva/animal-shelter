@@ -27,16 +27,31 @@ public class Cat {
 
     @Column
     private Boolean vaccinated;
+    @Column(name = "cat_id")
+  private Long catId;
 
-    @Column(name = "shelter_id")
-    private Long shelterId;
+    @OneToMany(mappedBy = "catId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private long shelterId;
 
-    public Cat(String name, Integer age, Boolean isHealthy, Boolean vaccinated, Long shelterId) {
+    //@Column(name = "shelter_id") // не надо
+    //private Long shelterId;
+
+   // public Cat(String name, Integer age, Boolean isHealthy, Boolean vaccinated, Long shelterId) {
+   //     this.name = name;
+   //     this.age = age;
+   //     this.isHealthy = isHealthy;
+   //     this.vaccinated = vaccinated;
+   //     this.shelterId = shelterId;
+   // }
+
+
+    public Cat(Long id, String name, Integer age, Boolean isHealthy, Boolean vaccinated, Long catId) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.isHealthy = isHealthy;
         this.vaccinated = vaccinated;
-        this.shelterId = shelterId;
+        this.catId = catId;
     }
 
     @Override

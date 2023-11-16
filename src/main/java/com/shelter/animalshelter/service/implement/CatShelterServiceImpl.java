@@ -52,10 +52,10 @@ public class CatShelterServiceImpl implements ShelterService<CatShelter, Cat> {
         return catRepository.findAll();
     }
 
-    @Override
-    public List<Cat> getAnimal(long index) {
-        return getSheltersId(index).getList();
-    }
+   // @Override
+   // public List<Cat> getAnimal(long index) {
+   //     return getSheltersId(index).getList();
+   // }
 
     @Override
     public String delShelter(long index) {
