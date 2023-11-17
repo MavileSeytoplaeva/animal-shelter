@@ -1,5 +1,6 @@
 package com.shelter.animalshelter.util;
 
+
 public enum CallbackDataRequest {
 
     CAT("Приют для котов", "CAT"),
