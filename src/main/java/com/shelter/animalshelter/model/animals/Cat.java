@@ -18,7 +18,7 @@ import java.util.List;
 public class Cat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long cat_id;
 
     @Column
     private String name;
@@ -32,8 +32,7 @@ public class Cat {
     @Column
     private Boolean vaccinated;
 
-    @Column(name = "cat_id")
-  private Long catId;
+
 
     @OneToMany(mappedBy = "catId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    // private long shelterId;
@@ -50,13 +49,12 @@ public class Cat {
    // }
 
 
-    public Cat(Long id, String name, Integer age, Boolean isHealthy, Boolean vaccinated, Long catId) {
-        this.id = id;
+    public Cat(Long cat_id, String name, Integer age, Boolean isHealthy, Boolean vaccinated) {
+        this.cat_id = cat_id;
         this.name = name;
         this.age = age;
         this.isHealthy = isHealthy;
         this.vaccinated = vaccinated;
-        this.catId = catId;
     }
 
     @Override

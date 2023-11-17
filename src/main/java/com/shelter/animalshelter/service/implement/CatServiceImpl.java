@@ -21,8 +21,8 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
-    public Cat getById(Long id) {
-        Optional<Cat> optionalCat = catRepository.findById(id);
+    public Cat getById(Long cat_id) {
+        Optional<Cat> optionalCat = catRepository.findById(cat_id);
         if (optionalCat.isEmpty()) {
             throw new NotFoundException("Кот не найден!");
         }
@@ -40,7 +40,7 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public Cat update(Cat cat) {
-        Optional<Cat> catId = catRepository.findById(cat.getId());
+        Optional<Cat> catId = catRepository.findById(cat.getCat_id());
         if (catId.isEmpty()) {
             throw new NotFoundException("Кота нет");
         }
@@ -55,7 +55,7 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
-    public void remove(Long id) {
-        catRepository.deleteById(getById(id).getId());
+    public void remove(Long cat_id) {
+        catRepository.deleteById(getById(cat_id).getCat_id());
     }
 }

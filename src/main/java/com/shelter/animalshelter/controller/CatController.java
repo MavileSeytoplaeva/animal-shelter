@@ -27,8 +27,8 @@ public class CatController {
 
     @GetMapping("/id")
     @Operation(summary = "Получение кота по ID")
-    public Cat getById(@RequestParam @Parameter(description = "ID кота") Long id) {
-        return catService.getById(id);
+    public Cat getByCatId(@RequestParam @Parameter(description = "ID кота") Long cat_id) {
+        return catService.getById(cat_id);
     }
 
  //   @PostMapping
@@ -58,19 +58,19 @@ public class CatController {
     @PutMapping
     @Operation(summary = "Изменить информацию о коте")
     public Cat update(
-            @RequestParam @Parameter(description = "ID кота") Long id,
+            @RequestParam @Parameter(description = "ID кота") Long cat_id,
             @RequestParam(required = false) @Parameter(description = "Имя кота") String name,
             @RequestParam(required = false) @Parameter(description = "Возраст кота") Integer age,
             @RequestParam(required = false) @Parameter(description = "Здоров?") Boolean isHealthy,
-            @RequestParam(required = false) @Parameter(description = "Привит?") Boolean vaccinated,
-            @RequestParam(required = false) @Parameter(description = "ID кошачьего приюта") Long shelterId) {
-        return catService.update(new Cat(id, name, age, isHealthy, vaccinated, shelterId));
+            @RequestParam(required = false) @Parameter(description = "Привит?") Boolean vaccinated)
+             {
+        return catService.update(new Cat(cat_id, name, age, isHealthy, vaccinated));
     }
 
     @DeleteMapping("/id")
     @Operation(summary = "Удаление кота")
-    public String deleteById(@RequestParam Long id) {
-        catService.remove(id);
+    public String deleteById(@RequestParam Long cat_id) {
+        catService.remove(cat_id);
         return "Кота выбросили на улицу";
     }
 

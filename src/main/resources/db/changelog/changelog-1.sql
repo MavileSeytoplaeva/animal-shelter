@@ -9,7 +9,7 @@ create table volunteers
 );
 create table cat
 (
-    id         bigserial not null primary key,
+    cat_id         bigserial not null primary key,
     name       varchar(255),
     age        integer
         constraint check_age check (age > 0),
