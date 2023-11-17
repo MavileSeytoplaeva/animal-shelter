@@ -3,8 +3,8 @@ package com.shelter.animalshelter.model;
 import javax.persistence.*;
 import java.util.Objects;
 @Entity
-@Table(name = "animal_adopter")
-public class AnimalAdopter {
+@Table(name = "user_info_for_contact")
+public class UserInfoForContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -18,7 +18,7 @@ public class AnimalAdopter {
 
 //    Нужно будет позже добавить поле какое животное человек взял и связать эту таблицы с таблицей животного
 
-    public AnimalAdopter() {
+    public UserInfoForContact() {
     }
 
     public String getName() {
@@ -55,7 +55,7 @@ public class AnimalAdopter {
 
     @Override
     public String toString() {
-        return "CatAdopter{" +
+        return "User Info For Contac{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", phoneNumber=" + phoneNumber +
@@ -67,7 +67,7 @@ public class AnimalAdopter {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AnimalAdopter that = (AnimalAdopter) o;
+        UserInfoForContact that = (UserInfoForContact) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(email, that.email);
     }
 

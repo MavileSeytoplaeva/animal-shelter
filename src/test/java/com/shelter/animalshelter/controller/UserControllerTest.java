@@ -1,7 +1,7 @@
 package com.shelter.animalshelter.controller;
 
 import com.shelter.animalshelter.model.User;
-import com.shelter.animalshelter.repository.AnimalAdopterRepository;
+import com.shelter.animalshelter.repository.UserInfoForContactRepository;
 import com.shelter.animalshelter.repository.UserRepository;
 import com.shelter.animalshelter.service.UserService;
 import net.minidev.json.JSONObject;
@@ -11,19 +11,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +33,7 @@ public class UserControllerTest {
     private UserRepository userRepository;
 
     @MockBean
-    private AnimalAdopterRepository animalAdopterRepository;
+    private UserInfoForContactRepository userInfoForContactRepository;
 
     @SpyBean
     private UserService userService;

@@ -1,11 +1,9 @@
 package com.shelter.animalshelter.service;
 
-import com.pengrad.telegrambot.model.BotCommand;
-import com.pengrad.telegrambot.request.SetMyCommands;
-import com.pengrad.telegrambot.response.BaseResponse;
-import com.shelter.animalshelter.model.AnimalAdopter;
+import com.pengrad.telegrambot.model.Update;
+import com.shelter.animalshelter.model.UserInfoForContact;
 import com.shelter.animalshelter.model.User;
-import com.shelter.animalshelter.repository.AnimalAdopterRepository;
+import com.shelter.animalshelter.repository.UserInfoForContactRepository;
 import com.shelter.animalshelter.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +15,11 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private UserRepository userRepository;
-    private AnimalAdopterRepository animalAdopterRepository;
+    private UserInfoForContactRepository userInfoForContactRepository;
 
-    public UserService(UserRepository userRepository, AnimalAdopterRepository animalAdopterRepository) {
+    public UserService(UserRepository userRepository, UserInfoForContactRepository userInfoForContactRepository) {
         this.userRepository = userRepository;
-        this.animalAdopterRepository = animalAdopterRepository;
+        this.userInfoForContactRepository = userInfoForContactRepository;
     }
 
     public User createUser(User user) {
@@ -44,47 +42,20 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    /**
-     * Метод принимает текстовое сообщение пользователя и оттуда вычленяет номер телефона,
-     * электронную почту и имя. Далее записывает данные в БД в таблицу animal_adopter.
-     * <br>
-     * Используются классы {@link Pattern}, {@link Matcher}
-     * <br>
-     * {@link AnimalAdopterRepository} интерфейс, который отвечает за сохранение данных в БД.
-     *
-     * @param messageText
-     */
-    public void registerAdopter(String messageText) {
-        AnimalAdopter animalAdopter = new AnimalAdopter();
+    public void registerUserIfNotRegistered(Update update) {
+        if (!(userRepository.existsById(update.message().chat().id()))) {
+            User user = new User();
 
-        Pattern phoneNumberPattern1 = Pattern.compile("\\+7\\d{10}");
-        Matcher phoneNumberMatcher = phoneNumberPattern1.matcher(messageText);
+            user.setTelegramId(update.message().chat().id());
+            user.setFirstName(update.message().chat().firstName());
+            System.out.println(update.message().chat().id());
+            System.out.println(update.message().chat().firstName());
 
-        if (phoneNumberMatcher.find()) {
-            String phoneNumber = phoneNumberMatcher.group(0);
-//            System.out.println("Номер телефона: " + phoneNumber);
-            animalAdopter.setPhoneNumber(Long.valueOf(phoneNumber));
-
+            userRepository.save(user);
         }
+    }
 
-        Pattern messageTextPattern = Pattern.compile("[а-яА-ЯёЁ]+");
-        Matcher messageTextMatcher = messageTextPattern.matcher(messageText);
-
-        if (messageTextMatcher.find()) {
-            String text = messageTextMatcher.group(0);
-            System.out.println("Текст сообщения: " +  text);
-            animalAdopter.setName(text);
-        }
-
-        Pattern emailAddressPattern = Pattern.compile("\\w+@\\w+\\.\\w{2,}");
-        Matcher emailAddressMatcher = emailAddressPattern.matcher(messageText);
-
-        if (emailAddressMatcher.find()) {
-            String emailAddress = emailAddressMatcher.group(0);
-            System.out.println("Электронный адрес: " + emailAddress);
-            animalAdopter.setEmail(emailAddress);
-        }
-
-        animalAdopterRepository.save(animalAdopter);
+    public boolean newUser(Update update) {
+        return !(userRepository.existsById(update.message().chat().id()));
     }
 }

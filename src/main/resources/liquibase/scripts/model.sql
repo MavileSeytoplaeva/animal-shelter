@@ -1,28 +1,80 @@
 --liquibase formatted sql
 
---changeset roman:1
-CREATE TABLE users (
+--changeset roman:2023-11-12-std-ind
+create table volunteers
+(
+    telegram_id bigint not null primary key,
+    first_name  varchar(255),
+    last_name   varchar(255)
+);
 
-    id bigserial primary key,
-    chat_id bigint,
-    user_Name varchar,
-    first_Name varchar,
-    last_Name varchar,
-    Registered_At timestamp
-    )
-CREATE TABLE cat (
+create table cat_shelter
+(
+    id            bigserial not null primary key,
+    about_me      varchar(255),
+    location      varchar(255),
+    name          varchar(255),
+    safety_advice varchar(255),
+    security      varchar(255),
+    timetable     varchar(255)
+);
 
-    id bigserial primary key,
-    name varchar,
-    breed varchar,
-    age bigint,
-    info varchar
-    )
-CREATE TABLE dog (
+create table dog_shelter
+(
+    id            bigserial not null primary key,
+    about_me      varchar(255),
+    location      varchar(255),
+    name          varchar(255),
+    safety_advice varchar(255),
+    security      varchar(255),
+    timetable     varchar(255)
+);
 
-    id bigserial primary key,
-    name varchar,
-    breed varchar,
-    age bigint,
-    info varchar
-    )
+create table cat
+(
+    id         bigserial not null primary key,
+    name       varchar(255),
+    age        integer
+        constraint check_age check (age > 0),
+    is_healthy boolean,
+    vaccinated boolean,
+
+    shelter_id bigint
+        constraint cat_cat_shelter_id_fk
+            references cat_shelter
+);
+
+create table dog
+(
+    id         bigserial not null primary key,
+    name       varchar(255),
+    age        integer
+        constraint check_age
+            check (age > 0),
+    is_healthy boolean,
+    vaccinated boolean,
+    shelter_id bigint
+            constraint dog_dog_shelter_id_fk
+                references dog_shelter
+);
+
+create table users
+(
+    telegram_id bigint not null primary key,
+    first_name  varchar(255)
+);
+
+create table user_info_for_contact
+(
+    id bigserial not null primary key,
+    name varchar(255) not null,
+    phone_number bigint not null,
+    email varchar(255) not null
+);
+
+create table daily_report
+(
+    id bigserial not null primary key,
+    photo varchar(255) not null,
+    report_text_under_photo varchar(255) not null
+)
