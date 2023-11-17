@@ -7,6 +7,17 @@ create table volunteers
     first_name  varchar(255),
     last_name   varchar(255)
 );
+create table cat
+(
+    id         bigserial not null primary key,
+    name       varchar(255),
+    age        integer
+        constraint check_age check (age > 0),
+    is_healthy boolean,
+    vaccinated boolean
+
+
+);
 
 create table cat_shelter
 (
@@ -33,17 +44,7 @@ create table dog_shelter
     timetable     varchar(255)
 );
 
-create table cat
-(
-    id         bigserial not null primary key,
-    name       varchar(255),
-    age        integer
-        constraint check_age check (age > 0),
-    is_healthy boolean,
-    vaccinated boolean,
 
-
-);
 
 create table dog
 (

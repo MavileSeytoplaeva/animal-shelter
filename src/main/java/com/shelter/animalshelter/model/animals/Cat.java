@@ -1,9 +1,13 @@
 package com.shelter.animalshelter.model.animals;
 
 import javax.persistence.*;
+
+import com.shelter.animalshelter.model.shelters.CatShelter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Data
@@ -27,12 +31,13 @@ public class Cat {
 
     @Column
     private Boolean vaccinated;
+
     @Column(name = "cat_id")
   private Long catId;
 
     @OneToMany(mappedBy = "catId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private long shelterId;
-
+   // private long shelterId;
+    private List<CatShelter> list;
     //@Column(name = "shelter_id") // не надо
     //private Long shelterId;
 
