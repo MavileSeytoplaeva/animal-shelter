@@ -34,10 +34,14 @@ public class DogShelter {
 
     @Column(name = "about_me")
     private String aboutMe;
+
+    @Column(name = "dog_id")
+    private Long dogId;
+
     // Список животных в приюте
 
-    @OneToMany(mappedBy = "shelterId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Dog> list;
+   // @OneToMany(mappedBy = "shelterId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //private List<Dog> list;
     // Способ связи с охраной
 
     @Column

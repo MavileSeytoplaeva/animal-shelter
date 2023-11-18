@@ -8,5 +8,5 @@ import com.shelter.animalshelter.model.animals.Dog;
 import java.util.List;
 @Repository
 public interface DogRepository extends JpaRepository<Dog, Long> {
-    List<Dog> findAllById(Long id); // Поиск cобак по Id
+
 }

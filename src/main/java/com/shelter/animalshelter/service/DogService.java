@@ -7,12 +7,12 @@ import java.util.List;
 public interface DogService {
     // Возвращает собаку по его id.
 
-    Dog getById(Long id);
+    Dog getById(Long dog_id);
 
 
      // Возвращает  собакy принадлежащей хозяину с указанным идентификатором.
 
-    List<Dog> getAllByUserId(Long id);
+    //List<Dog> getAllByUserId(Long id);
 
     // Создает новую запись о собаке в базе данных, используя переданный объект собаки.
 
@@ -28,5 +28,5 @@ public interface DogService {
 
     // Удаляет запись о собаке с указанным id из базы данных.
 
-    void remove(Long id);
+    void remove(Long dog_id);
 }

@@ -33,6 +33,17 @@ create table cat_shelter
                 references cat
 );
 
+create table dog
+(
+    dog_id         bigserial not null primary key,
+    name       varchar(255),
+    age        integer
+        constraint check_age
+            check (age > 0),
+    is_healthy boolean,
+    vaccinated boolean
+);
+
 create table dog_shelter
 (
     id            bigserial not null primary key,
@@ -41,24 +52,12 @@ create table dog_shelter
     name          varchar(255),
     safety_advice varchar(255),
     security      varchar(255),
-    timetable     varchar(255)
+    timetable     varchar(255),
+    dog_id bigint
+                constraint dog_dog_dog_id_fk
+                    references dog
 );
 
-
-
-create table dog
-(
-    id         bigserial not null primary key,
-    name       varchar(255),
-    age        integer
-        constraint check_age
-            check (age > 0),
-    is_healthy boolean,
-    vaccinated boolean,
-        shelter_id bigint
-        constraint dog_dog_shelter_id_fk
-            references dog_shelter
-);
 
 create table users
 (
