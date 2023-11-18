@@ -1,5 +1,8 @@
 package com.shelter.animalshelter.service.implement;
 
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.SendMessage;
 import com.shelter.animalshelter.model.AnimalAdopter;
 import com.shelter.animalshelter.repository.AnimalAdopterRepository;
 import com.shelter.animalshelter.service.AnimalAdopterService;
@@ -12,9 +15,11 @@ import java.util.regex.Pattern;
 @Service
 public class AnimalAdopterServiceImlp implements AnimalAdopterService {
     private AnimalAdopterRepository animalAdopterRepository;
+    private final TelegramBot telegramBot;
 
-    public AnimalAdopterServiceImlp(AnimalAdopterRepository animalAdopterRepository) {
+    public AnimalAdopterServiceImlp(AnimalAdopterRepository animalAdopterRepository, TelegramBot telegramBot) {
         this.animalAdopterRepository = animalAdopterRepository;
+        this.telegramBot = telegramBot;
     }
 
     @Override
@@ -77,7 +82,18 @@ public class AnimalAdopterServiceImlp implements AnimalAdopterService {
             System.out.println("Электронный адрес: " + emailAddress);
             animalAdopter.setEmail(emailAddress);
         }
-
         animalAdopterRepository.save(animalAdopter);
+    }
+
+    public SendMessage getVolunteerHelp(Update update) {
+        if (animalAdopterRepository.existsById(update.message().chat().id())) {
+            SendMessage message = new SendMessage(update.message().chat().id(), "У нас есть ваши данные для связи с вами. Наш волонтер свяжется с вами в ближайшее время.");
+            telegramBot.execute(message);
+            return message;
+        } else {
+            SendMessage message = new SendMessage(update.message().chat().id(), "Введите пожалуйста ваш номер, имя и электронную почту и наш волонтёр свяжется с вами в ближайшее время. Порядок написания данных не важен.");
+            telegramBot.execute(message);
+            return message;
+        }
     }
 }

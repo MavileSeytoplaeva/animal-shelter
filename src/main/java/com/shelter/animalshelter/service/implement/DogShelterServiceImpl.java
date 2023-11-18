@@ -1,4 +1,7 @@
 package com.shelter.animalshelter.service.implement;
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.request.SendMessage;
+import com.shelter.animalshelter.model.shelters.CatShelter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.shelter.animalshelter.exception.NotFoundException;
@@ -15,6 +18,7 @@ import java.util.Optional;
 public class DogShelterServiceImpl implements ShelterService<DogShelter,  Dog> {
 
     private final DogSheltersRepository dogRepository;
+    private final TelegramBot telegramBot;
 
 
     @Override
@@ -69,5 +73,49 @@ public class DogShelterServiceImpl implements ShelterService<DogShelter,  Dog> {
             throw new NotFoundException("Собаки без приюта. Мы его не нашли(");
         }
         return result;
+    }
+
+    @Override
+    public SendMessage getInfoAboutMe(Long chatId) {
+        String messeage = dogRepository.getAboutMe();
+        SendMessage message = new SendMessage(chatId, messeage);
+        telegramBot.execute(message);
+        return message;
+    }
+
+    @Override
+    public CatShelter getAllCatShelterInfo() {
+        return null;
+    }
+
+    @Override
+    public DogShelter getAllDogShelterInfo() {
+        return dogRepository.getAllInfo();
+    }
+
+    public SendMessage getLocation(Long chatId) {
+        String messeage = dogRepository.getLocation();
+        SendMessage message = new SendMessage(chatId, messeage);
+        telegramBot.execute(message);
+        return message;
+    }
+
+    public SendMessage getTimetable(Long chatId) {
+        String messeage = dogRepository.getTimetable();
+        SendMessage message = new SendMessage(chatId, messeage);
+        telegramBot.execute(message);
+        return message;
+    }
+    public SendMessage getSecurity(Long chatId) {
+        String messeage = dogRepository.getSecurity();
+        SendMessage message = new SendMessage(chatId, messeage);
+        telegramBot.execute(message);
+        return message;
+    }
+    public SendMessage getSafetyAdvice(Long chatId) {
+        String messeage = dogRepository.getSafetyAdvice();
+        SendMessage message = new SendMessage(chatId, messeage);
+        telegramBot.execute(message);
+        return message;
     }
 }

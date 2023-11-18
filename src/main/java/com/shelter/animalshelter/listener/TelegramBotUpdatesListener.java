@@ -10,6 +10,7 @@ import com.shelter.animalshelter.repository.AnimalAdopterRepository;
 import com.shelter.animalshelter.repository.UserRepository;
 import com.shelter.animalshelter.service.ButtonReactionService;
 import com.shelter.animalshelter.service.MenuService;
+import com.shelter.animalshelter.service.UpdateTextHandlerImpl;
 import com.shelter.animalshelter.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private AnimalAdopterRepository animalAdopterRepository;
     @Autowired
     private ButtonReactionService buttonReactionService;
+    @Autowired
+    private UpdateTextHandlerImpl updateTextHandler;
 
     @PostConstruct
     public void init() {
@@ -55,13 +58,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 //            Объявила переменные для имени и номера чата
                 if (update.callbackQuery() != null) {
                     buttonReactionService.buttonReaction(update.callbackQuery());
-                }/*else  if (update.message().text().equals("/start")) {
-                menuService.getFirstStartMenuShelter(update.message().chat().id());*/ else if (update.message().text() != null) {
-                    messageHandler(update);
+                } else if (update.message().text() != null) {
+                    updateTextHandler.handleStartMessage(update);
                 }
+//                }/*else  if (update.message().text().equals("/start")) {
+//                menuService.getFirstStartMenuShelter(update.message().chat().id());*/ else if (update.message().text() != null) {
+////                    messageHandler(update);
+//                }
 
 
-        });
+            });
         } catch (
                 Exception e) {
             logger.error(e.getMessage(), e);
@@ -69,15 +75,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    public void messageHandler(Update update) {
-        Long chatId = update.message().chat().id();
-        String userText = update.message().text();
-
-        if ("/start".equals(userText)) {
-            menuService.getFirstStartMenuShelter(chatId);
-        } else {
-            menuService.getStartMenuShelter(chatId);
-        }
+}
 
         /**
          * Метод формирует команды для выбора приюта (кошек или собак) - начальное меню.
@@ -139,8 +137,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             return false;
         }
     }*/
-    }
-}
+
+
 
 
 
