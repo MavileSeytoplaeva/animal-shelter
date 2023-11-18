@@ -6,8 +6,7 @@ import java.util.Objects;
 @Table(name = "animal_adopter")
 public class AnimalAdopter {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "chat_id")
     private Long id;
     @Column(name = "name")
     private String name;

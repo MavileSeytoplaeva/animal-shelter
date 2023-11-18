@@ -1,4 +1,8 @@
 package com.shelter.animalshelter.service;
+import com.pengrad.telegrambot.request.SendMessage;
+import com.shelter.animalshelter.model.shelters.CatShelter;
+import com.shelter.animalshelter.model.shelters.DogShelter;
+
 import java.util.List;
 
 public interface ShelterService<T, D> {
@@ -29,4 +33,11 @@ public interface ShelterService<T, D> {
     //Удаление приюта
 
     String delShelter(long index);
+
+
+    SendMessage getInfoAboutMe(Long chatId);
+
+    CatShelter getAllCatShelterInfo();
+
+    DogShelter getAllDogShelterInfo();
 }
