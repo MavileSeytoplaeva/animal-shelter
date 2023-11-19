@@ -64,17 +64,11 @@ create table users
     first_name  varchar(255)
 );
 
-create table user_info_for_contact
-(
-    id bigserial not null primary key,
-    name varchar(255) not null,
-    phone_number bigint not null,
-    email varchar(255) not null
-);
-
 create table daily_report
 (
     id bigserial not null primary key,
+    chat_id bigint not null,
     photo varchar(255) not null,
+    sent_date date not null,
     report_text_under_photo varchar(255) not null
 )

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.UUID;
 @Service
 public class ReportServiceImlp {
@@ -38,8 +39,11 @@ public class ReportServiceImlp {
 //    }
 
 
-    public SendResponse postReport(Long chatId, Update update) {
+    public SendResponse postReport(Update update) {
+        Long chatId = update.message().chat().id();
         DailyReport dailyReport = new DailyReport();
+        dailyReport.setChatId(chatId);
+        dailyReport.setDate(LocalDate.now());
         PhotoSize photoSize = update.message().photo()[update.message().photo().length - 1];
         GetFileResponse getFileResponse = bot.execute(new GetFile(photoSize.fileId()));
         if (getFileResponse.isOk()) {
@@ -66,4 +70,6 @@ public class ReportServiceImlp {
         SendResponse response = bot.execute(messageText);
         return response;
     }
+
+
 }

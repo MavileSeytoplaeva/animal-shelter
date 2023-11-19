@@ -1,9 +1,9 @@
 package com.shelter.animalshelter.service;
 
 import com.pengrad.telegrambot.model.Update;
-import com.shelter.animalshelter.model.UserInfoForContact;
+//import com.shelter.animalshelter.model.UserInfoForContact;
 import com.shelter.animalshelter.model.User;
-import com.shelter.animalshelter.repository.UserInfoForContactRepository;
+//import com.shelter.animalshelter.repository.UserInfoForContactRepository;
 import com.shelter.animalshelter.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private UserRepository userRepository;
-    private UserInfoForContactRepository userInfoForContactRepository;
+//    private UserInfoForContactRepository userInfoForContactRepository;
 
-    public UserService(UserRepository userRepository, UserInfoForContactRepository userInfoForContactRepository) {
+
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userInfoForContactRepository = userInfoForContactRepository;
     }
 
     public User createUser(User user) {
