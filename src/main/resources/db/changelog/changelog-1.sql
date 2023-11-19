@@ -7,6 +7,13 @@ create table volunteers
     first_name  varchar(255),
     last_name   varchar(255)
 );
+create table animal_adopter
+(
+    chat_id bigint not null primary key,
+    name varchar(255) not null,
+    phone_number bigint not null,
+    email varchar(255) not null
+);
 create table cat
 (
     cat_id         bigserial not null primary key,
@@ -14,8 +21,10 @@ create table cat
     age        integer
         constraint check_age check (age > 0),
     is_healthy boolean,
-    vaccinated boolean
-
+    vaccinated boolean,
+    chat_id bigint
+ constraint animal_adopter_animal_adopter_chat_id_fk
+                references animal_adopter
 
 );
 
@@ -41,7 +50,11 @@ create table dog
         constraint check_age
             check (age > 0),
     is_healthy boolean,
-    vaccinated boolean
+    vaccinated boolean,
+    chat_id bigint
+    constraint animal_adopter_animal_adopter_chat_id_fk
+    references animal_adopter
+
 );
 
 create table dog_shelter
@@ -66,13 +79,7 @@ create table users
     first_name  varchar(255)
 );
 
-create table animal_adopter
-(
-    chat_id bigint not null primary key,
-    name varchar(255) not null,
-    phone_number bigint not null,
-    email varchar(255) not null
-);
+
 
 create table take_animal_info
 (
