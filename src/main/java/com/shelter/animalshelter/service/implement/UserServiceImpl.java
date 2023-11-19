@@ -1,5 +1,6 @@
 package com.shelter.animalshelter.service.implement;
 
+import com.pengrad.telegrambot.model.Update;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -32,7 +33,6 @@ public class UserServiceImpl implements UserService {
         return optionalUser.get();
     }
 
-
     @Override
     public List<User> getAll() {
         return userRepository.findAll();
@@ -46,13 +46,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(User user) {
-        userRepository.delete(getById(user.getTelegramId()));
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 
     @Override
-    public void deleteById(Long id) {
-        userRepository.deleteById(getById(id).getTelegramId());
+    public void registerUser(Update update) {
+        Long chatId = update.message().chat().id();
+        User user = new User();
+        user.setTelegramId(chatId);
+        user.setFirstName(update.message().chat().firstName());
+        userRepository.save(user);
+    }
+
+    @Override
+    public boolean newUser(Update update) {
+        return !(userRepository.existsById(update.message().chat().id()));
     }
 }
 

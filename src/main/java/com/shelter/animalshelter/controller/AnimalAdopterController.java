@@ -2,7 +2,7 @@ package com.shelter.animalshelter.controller;
 
 import com.shelter.animalshelter.model.AnimalAdopter;
 import com.shelter.animalshelter.model.User;
-import com.shelter.animalshelter.service.AnimalAdopterService;
+import com.shelter.animalshelter.service.implement.AnimalAdopterServiceImlp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import liquibase.pro.packaged.L;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +22,10 @@ import java.util.NoSuchElementException;
 @RequestMapping("/adopter")
 public class AnimalAdopterController {
 
-    private AnimalAdopterService animalAdopterService;
+    private AnimalAdopterServiceImlp animalAdopterServiceImlp;
 
-    public AnimalAdopterController(AnimalAdopterService animalAdopterService) {
-        this.animalAdopterService = animalAdopterService;
+    public AnimalAdopterController(AnimalAdopterServiceImlp animalAdopterServiceImlp) {
+        this.animalAdopterServiceImlp = animalAdopterServiceImlp;
     }
 
     @Operation(
@@ -50,7 +49,7 @@ public class AnimalAdopterController {
     )
     @PostMapping
     public ResponseEntity<AnimalAdopter> createAnimalAdopter(@Parameter(name = "Объект пользователя") @RequestBody AnimalAdopter animalAdopter) {
-        return ResponseEntity.ok(animalAdopterService.createAnimalAdopter(animalAdopter));
+        return ResponseEntity.ok(animalAdopterServiceImlp.createAnimalAdopter(animalAdopter));
     }
 
     @Operation(
@@ -74,7 +73,7 @@ public class AnimalAdopterController {
     )
     @PutMapping
     public ResponseEntity<AnimalAdopter> editAnimalAdopter(@Parameter(name = "Объект пользователя") @org.springframework.web.bind.annotation.RequestBody AnimalAdopter animalAdopter) {
-        return ResponseEntity.ok(animalAdopterService.editAnimalAdopter(animalAdopter));
+        return ResponseEntity.ok(animalAdopterServiceImlp.editAnimalAdopter(animalAdopter));
     }
 
     @Operation(
@@ -98,11 +97,11 @@ public class AnimalAdopterController {
     @GetMapping("/{id}")
     public ResponseEntity<AnimalAdopter> findAnimalAdopter(@PathVariable Long id) {
         try {
-            animalAdopterService.findAnimalAdopter(id);
+            animalAdopterServiceImlp.findAnimalAdopter(id);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(animalAdopterService.findAnimalAdopter(id));
+        return ResponseEntity.ok(animalAdopterServiceImlp.findAnimalAdopter(id));
     }
 
     @Operation(
@@ -122,7 +121,7 @@ public class AnimalAdopterController {
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteAnimalAdopter(@PathVariable Long id) {
         try {
-            animalAdopterService.deleteAnimalAdopter(id);
+            animalAdopterServiceImlp.deleteAnimalAdopter(id);
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
@@ -131,7 +130,7 @@ public class AnimalAdopterController {
 
     @GetMapping("all")
     public ResponseEntity<List<AnimalAdopter>> getAll() {
-        return ResponseEntity.ok(animalAdopterService.getAllAdopters());
+        return ResponseEntity.ok(animalAdopterServiceImlp.getAllAdopters());
     }
 
 }

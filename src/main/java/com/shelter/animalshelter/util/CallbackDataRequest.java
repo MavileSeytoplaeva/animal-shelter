@@ -1,21 +1,24 @@
 package com.shelter.animalshelter.util;
 
+
 public enum CallbackDataRequest {
 
     CAT("Приют для котов", "CAT"),
-    TAKE_CAT("Взять кота", "TAKE_CAT"),
-    TAKE_DOG("Взять собаку", "TAKE_DOG"),
+    TAKE_CAT("Хочу взять кошечку", "TAKE_CAT"),
+    TAKE_DOG("Хочу взять собачку", "TAKE_DOG"),
     DOG("Приют для собак", "DOG"),
     GENERAL_SHELTER_INFO("Информация о приюте", "GENERAL_SHELTER_INFO"),
     HOW_TO_TAKE_ANIMAL("Как взять животное из приюта", "HOW_TO_TAKE_ANIMAL"),
     REPORT_ANIMAL("Прислать отчет о питомце", "REPORT_ANIMAL"),
     VOLUNTEER("Позвать волонтера", "VOLUNTEER"),
     ABOUT_SHELTER("О нас", "ABOUT_SHELTER"),
-    CONTACT_SHELTER("Наши контакты", "CONTACT_SHELTER"),
-    SAFETY_CONTACT_FOR_CAR_PASS("Оформить пропуск на машину", "SAFETY_CONTACT_FOR_CAR_PASS"),
+    LOCATION("Как нас найти", "LOCATION"),
+    TIMETABLE("Когда мы работаем", "TIMETABLE"),
+//    SECURITY("Оформить пропуск на машину", "SECURITY"),
+    SECURITY("Как оформить пропуск на машину", "SECURITY"),
+//    SAFETY_CONTACT_FOR_CAR_PASS("Оформить пропуск на машину", "SAFETY_CONTACT_FOR_CAR_PASS"),
     SAFETY_IN_SHELTER_TERRITORY("Техника безопасности на территории приюта", "SAFETY_IN_SHELTER_TERRITORY"),
     GIVE_MY_CONTACT("Оставить контакт для связи", "GIVE_MY_CONTACT"),
-    CALL_VOLUNTEER("Позвать волонтера", "CALL_VOLUNTEER"),
     ROLLBACK("Вернуться назад", "ROLLBACK"),
     //Консультация клиента
 

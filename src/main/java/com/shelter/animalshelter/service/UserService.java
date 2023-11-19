@@ -1,4 +1,5 @@
 package com.shelter.animalshelter.service;
+import com.pengrad.telegrambot.model.Update;
 import com.shelter.animalshelter.model.User;
 
 import java.util.List;
@@ -21,13 +22,11 @@ public interface UserService {
          List<User> getAll();
 
     //Изменение пользователя
-
     User update(User user);
-
-    // Удаление
-    void delete(User user);
-
     //Удаление пользователя по id
+    void deleteUser(Long id);
 
-    void deleteById(Long id);
+    void registerUser(Update update);
+
+    boolean newUser(Update update);
 }
