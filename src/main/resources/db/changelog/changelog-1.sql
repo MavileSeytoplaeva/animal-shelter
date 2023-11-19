@@ -7,6 +7,14 @@ create table volunteers
     first_name  varchar(255),
     last_name   varchar(255)
 );
+create table animal_adopter
+(
+    chat_id bigint not null primary key,
+    name varchar(255) not null,
+    phone_number bigint not null,
+    email varchar(255) not null,
+    took_animal boolean
+);
 create table cat
 (
     cat_id         bigserial not null primary key,
@@ -15,8 +23,6 @@ create table cat
         constraint check_age check (age > 0),
     is_healthy boolean,
     vaccinated boolean
-
-
 );
 
 create table cat_shelter
@@ -64,14 +70,6 @@ create table users
 (
     telegram_id bigint not null primary key,
     first_name  varchar(255)
-);
-
-create table animal_adopter
-(
-    chat_id bigint not null primary key,
-    name varchar(255) not null,
-    phone_number bigint not null,
-    email varchar(255) not null
 );
 
 create table take_animal_info
@@ -122,6 +120,31 @@ VALUES ('Наша организация предоставляет времен
 'Собачий рай', 'Общие рекомендации о технике безопасности на территории приюта: Следуйте указаниям персонала приюта и соблюдайте правила, чтобы обеспечить безопасность как для себя, так и для животных. Прикармливайте или касайтесь животных только с разрешения сотрудников приюта. Не проникайте в запрещенные зоны без разрешения. Будьте осторожны, особенно вблизи собачих вольеров, чтобы не испугать или не причинить вред животным. Если у вас есть аллергия на собак, убедитесь, что вы принимаете соответствующие меры предосторожности, например, принимайте антигистаминные препараты или носите маску. Если вы замечаете какую-либо проблему или поведение, вызывающее беспокойство, сообщите об этом персоналу приюта.',
                 'Чтобы оформить пропуск на машину, вам нужно связаться с главным охранником Ивановым Иваном Ивановичем по номеру +7(987)6543213.',
                 'Наш приют открыть для посещения каждый день с 08:00 по 16:00. Будем рады вас видеть у нас.');
+
+INSERT INTO cat (name, age, is_healthy, vaccinated)
+VALUES ('Оскар', 3, true, true);
+
+INSERT INTO cat (name, age, is_healthy, vaccinated)
+VALUES ('Гарфилд', 9, false, true);
+
+INSERT INTO cat (name, age, is_healthy, vaccinated)
+VALUES ('Вася', 1, true, false);
+
+INSERT INTO dog (name, age, is_healthy, vaccinated)
+VALUES ('Том', 1, true, true);
+
+INSERT INTO dog (name, age, is_healthy, vaccinated)
+VALUES ('Сэмми', 5, false, true);
+
+INSERT INTO dog (name, age, is_healthy, vaccinated)
+VALUES ('Барсик', 7, true, false);
+
+
+
+
+
+
+
 
 
 

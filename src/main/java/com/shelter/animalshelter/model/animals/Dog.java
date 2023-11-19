@@ -51,9 +51,9 @@ public class Dog {
 
     @Override
     public String toString() {
-        return "Имя: " + name +
-                ", Возраст: " + age +
-                ", Состояние здоровья: " + (isHealthy ? "здоров" : "инвалид") +
-                ", Вакцинация: " + (vaccinated ? "привит" : "не привит");
+        return "\n Имя: " + name +
+                ", \n Возраст: " + age +
+                ", \n Состояние здоровья: " + (isHealthy ? "здоров" : "инвалид") +
+                ", \n Вакцинация: " + (vaccinated ? "привит" : "не привит");
     }
 }
