@@ -30,10 +30,21 @@ public class AnimalAdopterServiceImlp implements AnimalAdopterService {
     public AnimalAdopter editAnimalAdopter(AnimalAdopter animalAdopter) {
         return animalAdopterRepository.save(animalAdopter);
     }
+
+    @Override
+    public AnimalAdopter addTookAnimal(AnimalAdopter animalAdopter) {
+        return animalAdopterRepository.save(animalAdopter);
+    }
     @Override
     public AnimalAdopter findAnimalAdopter(Long id) {
         return animalAdopterRepository.findById(id).get();
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return animalAdopterRepository.existsById(id);
+    }
+
     @Override
     public void deleteAnimalAdopter(Long id) {
         animalAdopterRepository.deleteById(id);

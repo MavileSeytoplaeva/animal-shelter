@@ -26,6 +26,21 @@ public class MenuService {
         this.userService = userService;
     }
 
+    public SendMessage CatNamesMenu(Long chatId) {
+        InlineKeyboardMarkup keyboard = keyboardUtil.setKeyboard(OSCAR, GARFIELD, VASYA, NO);
+
+        SendMessage sendMessage = new SendMessage(chatId,"Если вы ознакомились со всеми условиями нашего приюта и готовы сразу забрать кота, дайте нам об этом знать").replyMarkup(keyboard);
+        telegramBot.execute(sendMessage);
+        return sendMessage;
+    }
+    public SendMessage DogNamesMenu(Long chatId) {
+        InlineKeyboardMarkup keyboard = keyboardUtil.setKeyboard(TOM, SAMMY, BARSIK, NO);
+
+        SendMessage sendMessage = new SendMessage(chatId,"Если вы ознакомились со всеми условиями нашего приюта и готовы сразу забрать собаку, дайте нам об этом знать").replyMarkup(keyboard);
+        telegramBot.execute(sendMessage);
+        return sendMessage;
+    }
+
     public SendMessage getStartMenuShelter(Update update) {
         InlineKeyboardMarkup keyboard = keyboardUtil.setKeyboard(CAT, DOG);
         if (userService.newUser(update)) {

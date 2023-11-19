@@ -1,8 +1,17 @@
 package com.shelter.animalshelter.util;
 
 
-public enum CallbackDataRequest {
+import com.fasterxml.jackson.datatype.jsr310.ser.YearSerializer;
 
+public enum CallbackDataRequest {
+    YES("Забираю", "YES"),
+    NO("Пока не готов", "No"),
+    OSCAR("Оскар", "OSCAR"),
+    GARFIELD("Гарфилд", "GARFIELD"),
+    VASYA("Вася", "VASYA"),
+    TOM("Том", "TOM"),
+    SAMMY("Сэмми", "SAMMY"),
+    BARSIK("Барсик", "BARSIK"),
     CAT("Приют для котов", "CAT"),
     TAKE_CAT("Хочу взять кошечку", "TAKE_CAT"),
     TAKE_DOG("Хочу взять собачку", "TAKE_DOG"),

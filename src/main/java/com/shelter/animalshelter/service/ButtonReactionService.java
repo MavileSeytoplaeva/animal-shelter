@@ -3,6 +3,7 @@ package com.shelter.animalshelter.service;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.shelter.animalshelter.service.implement.AnimalAdopterServiceImlp;
 import com.shelter.animalshelter.service.implement.CatShelterServiceImpl;
 import com.shelter.animalshelter.service.implement.DogShelterServiceImpl;
 import com.shelter.animalshelter.service.implement.ShelterInfoTakeAnimalImlp;
@@ -17,8 +18,10 @@ public class ButtonReactionService {
     TelegramBot bot = new TelegramBot("${telegram.bot.token}");
     private final MenuService menuService;
     // private final CallbackDataRequest callbackDataRequest;
+    private final TakeAnimalServiceImlp takeAnimalService;
     private final MessageSender messageSender;
     private final CatShelterServiceImpl catShelterService;
+    private final AnimalAdopterServiceImlp animalAdopterService;
 
     private final DogShelterServiceImpl dogShelterService;
     private final ShelterInfoTakeAnimalImlp shelterInfoTakeAnimal;
@@ -26,10 +29,12 @@ public class ButtonReactionService {
     private final UpdateTextHandlerImpl updateTextHandler;
     private boolean isCat = false;
 
-    public ButtonReactionService(MenuService menuService, MessageSender messageSender, CatShelterServiceImpl catShelterService, DogShelterServiceImpl dogShelterService, ShelterInfoTakeAnimalImlp shelterInfoTakeAnimal, UpdateTextHandlerImpl updateTextHandler) {
+    public ButtonReactionService(MenuService menuService, TakeAnimalServiceImlp takeAnimalService, MessageSender messageSender, CatShelterServiceImpl catShelterService, AnimalAdopterServiceImlp animalAdopterService, DogShelterServiceImpl dogShelterService, ShelterInfoTakeAnimalImlp shelterInfoTakeAnimal, UpdateTextHandlerImpl updateTextHandler) {
         this.menuService = menuService;
+        this.takeAnimalService = takeAnimalService;
         this.messageSender = messageSender;
         this.catShelterService = catShelterService;
+        this.animalAdopterService = animalAdopterService;
         this.dogShelterService = dogShelterService;
         this.shelterInfoTakeAnimal = shelterInfoTakeAnimal;
         this.updateTextHandler = updateTextHandler;
@@ -102,8 +107,29 @@ public class ButtonReactionService {
                 return shelterInfoTakeAnimal.getRecForProvenDogHandlers(chatId);
             case REFUSE_REASONS:
                 return shelterInfoTakeAnimal.getReasonsForRefusal(chatId);
-//            case TAKE_CAT:
-//            case TAKE_DOG:
+            case TAKE_CAT:
+                if (isCat) {
+                    takeAnimalService.getInfoAboutAllCats(chatId);
+                    return menuService.CatNamesMenu(chatId);
+                }
+            case TAKE_DOG:
+                if (!isCat) {
+                    takeAnimalService.getInfoAboutAllDogs(chatId);
+                    return menuService.DogNamesMenu(chatId);
+                }
+            case GARFIELD, OSCAR, VASYA, TOM, BARSIK, SAMMY:
+                if (animalAdopterService.existsById(chatId)) {
+                    takeAnimalService.addTookAnimalField(chatId);
+                    return messageSender.sendMessage(chatId, "Спасибо за ответ. Наш волонтёр свяжется с вами в ближайшее время, чтобы обсудить, когда вы сможете забрать питомца и заполнить документы");
+                } else
+                    return messageSender.sendMessage(chatId, "Извините, у нас ещё нет ваших данных, чтобы наш волонтёр смог с вами связаться и уточнить информацию. Введите пожалуйста ваш номер, имя и электронную почту и наш волонтёр свяжется с вами в ближайшее время. Порядок написания данных не важен.");
+            case NO:
+                return messageSender.sendMessage(chatId, "Спасибо за ответ. Будем вас ждать позже");
+
+
+
+
+
 //                return takeAnimal.takeAnimal(chatId, isCat);
 //            case REPORT_ANIMAL:
 //                if (reportService.checkIsFullReportPostToday()) {
