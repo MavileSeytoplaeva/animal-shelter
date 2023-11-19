@@ -1,9 +1,9 @@
 package com.shelter.animalshelter.controller;
 
 import com.shelter.animalshelter.model.User;
-import com.shelter.animalshelter.repository.UserInfoForContactRepository;
+import com.shelter.animalshelter.repository.AnimalAdopterRepository;
 import com.shelter.animalshelter.repository.UserRepository;
-import com.shelter.animalshelter.service.UserService;
+import com.shelter.animalshelter.service.implement.UserServiceImpl;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,45 +31,30 @@ public class UserControllerTest {
     private UserRepository userRepository;
 
     @MockBean
-    private UserInfoForContactRepository userInfoForContactRepository;
-
+    private AnimalAdopterRepository animalAdopterRepository;
     @SpyBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
-    private LocalDateTime date = createDate();
-    private Long chatId = 1L;
-    private String userName = "Mavileshka";
+    private Long telegramId = 1L;
     private String firstName = "Mavile";
-    private String lastName = "se";
-    private LocalDateTime createDate() {
-        String dateString = "05.11.2023 19:45";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-        LocalDateTime date = LocalDateTime.parse(dateString, formatter);
-        return date;
-    }
 
     private JSONObject userJSON() {
         JSONObject userObject = new JSONObject();
-        userObject.put("userName", userName);
         userObject.put("firstName", firstName);
-        userObject.put("lastName", lastName);
-        userObject.put("registeredAt", date);
+        userObject.put("telegramId", telegramId);
         return userObject;
     }
 
     private User userObject() {
         User user = new User();
-        user.setChatId(chatId);
-        user.setUserName(userName);
         user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setRegisteredAt(date);
+        user.setTelegramId(telegramId);
         return user;
     }
 
     @Test
     public void getUserTest() throws Exception {
-        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(userObject()));
+        when(userRepository.findByTelegramId(any(Long.class))).thenReturn(Optional.of(userObject()));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/user/1")
@@ -79,7 +62,6 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userName").value(userName))
                 .andExpect(jsonPath("$.firstName").value(firstName));
     }
 
@@ -94,12 +76,12 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userName").value(userName))
                 .andExpect(jsonPath("$.firstName").value(firstName));
     }
 
     @Test
     public void deleteUserTest() throws Exception{
+        when(userRepository.save(any(User.class))).thenReturn(userObject());
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/user/1")
                         .contentType(MediaType.APPLICATION_JSON))

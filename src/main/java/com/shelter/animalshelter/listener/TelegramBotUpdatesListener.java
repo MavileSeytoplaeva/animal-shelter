@@ -6,23 +6,32 @@ import com.pengrad.telegrambot.model.*;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
+import com.shelter.animalshelter.repository.AnimalAdopterRepository;
 import com.pengrad.telegrambot.response.SendResponse;
 //import com.shelter.animalshelter.repository.UserInfoForContactRepository;
 import com.shelter.animalshelter.repository.UserRepository;
+import com.shelter.animalshelter.service.ButtonReactionService;
 import com.shelter.animalshelter.service.MenuService;
 import com.shelter.animalshelter.service.ReportServiceImlp;
 //import com.shelter.animalshelter.service.UserInfoForContactServiceImlp;
+import com.shelter.animalshelter.service.UpdateTextHandlerImpl;
 import com.shelter.animalshelter.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.insertModifierPriority;
+import static liquibase.repackaged.net.sf.jsqlparser.parser.feature.Feature.update;
 
 
 @Service
@@ -40,6 +49,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private UserService userService;
 
     @Autowired
+    private AnimalAdopterRepository animalAdopterRepository;
+    @Autowired
+    private ButtonReactionService buttonReactionService;
+    @Autowired
+    private UpdateTextHandlerImpl updateTextHandler;
     private ReportServiceImlp reportService;
     private UserRepository userRepository;
 
@@ -64,10 +78,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 reportService.postReport(update);
             }
 
-        });
-        return UpdatesListener.CONFIRMED_UPDATES_ALL;
-    }
+            });
+        } catch (
+                Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+                        return UpdatesListener.CONFIRMED_UPDATES_ALL;
 }
+                                }
 
 
 

@@ -1,8 +1,8 @@
 package com.shelter.animalshelter.controller;
 
-import com.shelter.animalshelter.model.UserInfoForContact;
+import com.shelter.animalshelter.model.AnimalAdopter;
 import com.shelter.animalshelter.model.User;
-import com.shelter.animalshelter.service.UserInfoForContactServiceImlp;
+import com.shelter.animalshelter.service.implement.AnimalAdopterServiceImlp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -20,21 +20,21 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/adopter")
-public class UserInfoForContactController {
+public class AnimalAdopterController {
 
-    private UserInfoForContactServiceImlp userInfoForContactServiceImlp;
+    private AnimalAdopterServiceImlp animalAdopterServiceImlp;
 
-    public UserInfoForContactController(UserInfoForContactServiceImlp userInfoForContactServiceImlp) {
-        this.userInfoForContactServiceImlp = userInfoForContactServiceImlp;
+    public AnimalAdopterController(AnimalAdopterServiceImlp animalAdopterServiceImlp) {
+        this.animalAdopterServiceImlp = animalAdopterServiceImlp;
     }
 
     @Operation(
             requestBody = @RequestBody,
-            summary = "Записывает данные пользователя для контакта с ним в БД",
+            summary = "Записывает данные усыновителя в БД",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Возвращает объект созданного пользователя для контакта с ним",
+                            description = "Возвращает объект созданного усыновителя",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = User.class))
@@ -48,17 +48,17 @@ public class UserInfoForContactController {
             tags = "Adopters"
     )
     @PostMapping
-    public ResponseEntity<UserInfoForContact> createUserInfoForContact(@Parameter(name = "Объект пользователя для контакта с ним") @RequestBody UserInfoForContact userInfoForContact) {
-        return ResponseEntity.ok(userInfoForContactServiceImlp.createUserInfoForContact(userInfoForContact));
+    public ResponseEntity<AnimalAdopter> createAnimalAdopter(@Parameter(name = "Объект пользователя") @RequestBody AnimalAdopter animalAdopter) {
+        return ResponseEntity.ok(animalAdopterServiceImlp.createAnimalAdopter(animalAdopter));
     }
 
     @Operation(
             requestBody = @RequestBody,
-            summary = "Редактирует данные пользователя для контакта с ним в БД",
+            summary = "Редактирует данные усыновителя в БД",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Возвращает объект редактируемого пользователя для контакта с ним",
+                            description = "Возвращает объект редактируемого усыновителя",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = User.class))
@@ -72,16 +72,16 @@ public class UserInfoForContactController {
             tags = "Adopters"
     )
     @PutMapping
-    public ResponseEntity<UserInfoForContact> editUserInfoForContact(@Parameter(name = "Объект пользователя для контакта с ним") @org.springframework.web.bind.annotation.RequestBody UserInfoForContact userInfoForContact) {
-        return ResponseEntity.ok(userInfoForContactServiceImlp.editUserInfoForContact(userInfoForContact));
+    public ResponseEntity<AnimalAdopter> editAnimalAdopter(@Parameter(name = "Объект пользователя") @org.springframework.web.bind.annotation.RequestBody AnimalAdopter animalAdopter) {
+        return ResponseEntity.ok(animalAdopterServiceImlp.editAnimalAdopter(animalAdopter));
     }
 
     @Operation(
-            summary = "Поиск пользователя для контакта с ним в БД по id",
+            summary = "Поиск усыновителя в БД по id",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Возвращает найденного пользователя для контакта с ним",
+                            description = "Возвращает найденного усыновителя",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = User.class))
@@ -89,23 +89,23 @@ public class UserInfoForContactController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Не удалось найти пользователя для контакта с ним"
+                            description = "Не удалось найти усыновителя"
                     )
             },
             tags = "Adopters"
     )
     @GetMapping("/{id}")
-    public ResponseEntity<UserInfoForContact> findUserInfoForContact(@PathVariable Long id) {
+    public ResponseEntity<AnimalAdopter> findAnimalAdopter(@PathVariable Long id) {
         try {
-            userInfoForContactServiceImlp.findUserInfoForContact(id);
+            animalAdopterServiceImlp.findAnimalAdopter(id);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userInfoForContactServiceImlp.findUserInfoForContact(id));
+        return ResponseEntity.ok(animalAdopterServiceImlp.findAnimalAdopter(id));
     }
 
     @Operation(
-            summary = "Удаляет пользователя для контакта с ним из БД по id",
+            summary = "Удаляет усыновителя из БД по id",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -113,7 +113,7 @@ public class UserInfoForContactController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Не удалось найти пользователя для контакта с ним"
+                            description = "Не удалось найти усыновителя"
                     )
             },
             tags = "Adopters"
@@ -121,7 +121,7 @@ public class UserInfoForContactController {
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteAnimalAdopter(@PathVariable Long id) {
         try {
-            userInfoForContactServiceImlp.deleteUserInfoForContact(id);
+            animalAdopterServiceImlp.deleteAnimalAdopter(id);
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
@@ -129,8 +129,8 @@ public class UserInfoForContactController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<List<UserInfoForContact>> getAll() {
-        return ResponseEntity.ok(userInfoForContactServiceImlp.getAllUserInfoForContact());
+    public ResponseEntity<List<AnimalAdopter>> getAll() {
+        return ResponseEntity.ok(animalAdopterServiceImlp.getAllAdopters());
     }
 
 }

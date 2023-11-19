@@ -1,8 +1,7 @@
 package com.shelter.animalshelter.controller;
 
-import com.shelter.animalshelter.exceptions.UserNotFoundException;
 import com.shelter.animalshelter.model.User;
-import com.shelter.animalshelter.service.UserService;
+import com.shelter.animalshelter.service.implement.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -22,9 +21,9 @@ import java.util.NoSuchElementException;
 @RequestMapping("/user")
 public class UserController {
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -50,7 +49,7 @@ public class UserController {
     @PostMapping
 //    public ResponseEntity<User> createUser(@Parameter(name = "Объект пользователя") @org.springframework.web.bind.annotation.RequestBody User user) {
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.createUser(user));
+        return ResponseEntity.ok(userService.create(user));
     }
 
     @Operation(
@@ -74,7 +73,7 @@ public class UserController {
     )
     @PutMapping
     public ResponseEntity<User> updateUser(@Parameter(name = "Объект пользователя") @RequestBody User user) {
-        return ResponseEntity.ok(userService.updateUser(user));
+        return ResponseEntity.ok(userService.update(user));
     }
 
     @Operation(
@@ -98,11 +97,16 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> findUser(@PathVariable long id) {
         try {
-            userService.findUser(id);
+            userService.getById(id);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(userService.findUser(id));
+        return ResponseEntity.ok(userService.getById(id));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<User>> getAll() {
+        return ResponseEntity.ok(userService.getAll());
     }
 
     @Operation(
@@ -128,9 +132,5 @@ public class UserController {
         }
         return ResponseEntity.ok().build();
     }
-
-    @GetMapping("all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
 }
+

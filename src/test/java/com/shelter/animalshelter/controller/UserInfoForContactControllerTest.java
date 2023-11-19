@@ -1,8 +1,8 @@
 package com.shelter.animalshelter.controller;
 
-import com.shelter.animalshelter.model.UserInfoForContact;
-import com.shelter.animalshelter.repository.UserInfoForContactRepository;
-import com.shelter.animalshelter.service.UserInfoForContactServiceImlp;
+import com.shelter.animalshelter.model.AnimalAdopter;
+import com.shelter.animalshelter.repository.AnimalAdopterRepository;
+import com.shelter.animalshelter.service.implement.AnimalAdopterServiceImlp;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,17 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserInfoForContactController.class)
-class UserInfoForContactControllerTest {
+@WebMvcTest(AnimalAdopterController.class)
+class AnimalAdopterControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private UserInfoForContactRepository userInfoForContactRepository;
+    private AnimalAdopterRepository animalAdopterRepository;
 
     @SpyBean
-    private UserInfoForContactServiceImlp userInfoForContactServiceImlp;
+    private AnimalAdopterServiceImlp animalAdopterServiceImlp;
 
     private Long chatId = 1L;
     private String name = "Усыновитель";
@@ -39,13 +39,13 @@ class UserInfoForContactControllerTest {
     private String email = "adopter@mail.ru";
 
 
-    private UserInfoForContact animalAdopterObject() {
-        UserInfoForContact userInfoForContact = new UserInfoForContact();
-        userInfoForContact.setId(chatId);
-        userInfoForContact.setName(name);
-        userInfoForContact.setEmail(email);
-        userInfoForContact.setPhoneNumber(phoneNumber);
-        return userInfoForContact;
+    private AnimalAdopter animalAdopterObject() {
+        AnimalAdopter animalAdopter = new AnimalAdopter();
+        animalAdopter.setId(chatId);
+        animalAdopter.setName(name);
+        animalAdopter.setEmail(email);
+        animalAdopter.setPhoneNumber(phoneNumber);
+        return animalAdopter;
     }
 
     public JSONObject animalAdopterJSON() {
@@ -59,7 +59,7 @@ class UserInfoForContactControllerTest {
 
     @Test
     public void saveAnimalAdopterTest() throws Exception {
-        when(userInfoForContactRepository.save(any(UserInfoForContact.class))).thenReturn(animalAdopterObject());
+        when(animalAdopterRepository.save(any(AnimalAdopter.class))).thenReturn(animalAdopterObject());
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/adopter")
@@ -73,7 +73,7 @@ class UserInfoForContactControllerTest {
 
     @Test
     public void getAnimalAdopterTest() throws Exception {
-        when(userInfoForContactRepository.findById(any(Long.class))).thenReturn(Optional.of(animalAdopterObject()));
+        when(animalAdopterRepository.findById(any(Long.class))).thenReturn(Optional.of(animalAdopterObject()));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/adopter/1")
@@ -96,7 +96,7 @@ class UserInfoForContactControllerTest {
 
     @Test
     public void getAllAdoptersTest() throws Exception {
-        when(userInfoForContactRepository.findAll()).thenReturn(List.of(animalAdopterObject()));
+        when(animalAdopterRepository.findAll()).thenReturn(List.of(animalAdopterObject()));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/adopter/all")
                         .contentType(MediaType.APPLICATION_JSON)

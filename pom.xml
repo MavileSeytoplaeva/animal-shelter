@@ -28,27 +28,33 @@
 			<scope>test</scope>
 		</dependency>
 
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.pengrad</groupId>
-            <artifactId>java-telegram-bot-api</artifactId>
-            <version>5.7.0</version>
-        </dependency>
+		<dependency>
+			<groupId>com.github.pengrad</groupId>
+			<artifactId>java-telegram-bot-api</artifactId>
+			<version>5.7.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.telegram</groupId>
@@ -60,6 +66,17 @@
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.swagger.core.v3</groupId>-->
+<!--			<artifactId>swagger-models</artifactId>-->
+<!--			<version>2.2.9</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>io.swagger</groupId>-->
+<!--			<artifactId>swagger-annotations</artifactId>-->
+<!--			<version>1.5.20</version>-->
+<!--		</dependency>-->
+
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations-jakarta</artifactId>
@@ -70,6 +87,20 @@
             <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>

@@ -6,8 +6,7 @@ import java.util.Objects;
 @Table(name = "user_info_for_contact")
 public class UserInfoForContact {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "chat_id")
     private Long id;
     @Column(name = "name")
     private String name;
