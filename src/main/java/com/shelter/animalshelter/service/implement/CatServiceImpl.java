@@ -28,15 +28,10 @@ public class CatServiceImpl implements CatService {
         }
         return optionalCat.get();
     }
-
-  //  @Override
-  //  public List<Cat> getAllByUserId(Long id) {
-  //      List<Cat> catList = catRepo.findAllByOwnerId(id);
-  //      if (catList.isEmpty()) {
-  //          throw new NotFoundException("У хозяина нет котов");
-  //      }
-  //      return catList;
-  //  }
+    @Override
+    public List<Cat> getAll() {
+        return catRepository.findAll();
+    }
 
     @Override
     public Cat update(Cat cat) {
@@ -47,11 +42,6 @@ public class CatServiceImpl implements CatService {
         Cat currentCat = catId.get();
         EntityUtils.copyNonNullFields(cat, currentCat);
         return catRepository.save(currentCat);
-    }
-
-    @Override
-    public List<Cat> getAll() {
-        return catRepository.findAll();
     }
 
     @Override

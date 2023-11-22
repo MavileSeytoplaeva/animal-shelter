@@ -41,7 +41,7 @@ public class Dog {
     // private long shelterId;
     private List<DogShelter> list;
 
-    public Dog(Long dog_id, String name, Integer age, Boolean isHealthy, Boolean vaccinated) {
+    public Dog(String name, Integer age, Boolean isHealthy, Boolean vaccinated) {
         this.dog_id = dog_id;
         this.name = name;
         this.age = age;

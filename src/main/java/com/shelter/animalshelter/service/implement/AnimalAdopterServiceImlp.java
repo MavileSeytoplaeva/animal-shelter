@@ -94,6 +94,7 @@ public class AnimalAdopterServiceImlp implements AnimalAdopterService {
             animalAdopter.setEmail(emailAddress);
         }
         animalAdopterRepository.save(animalAdopter);
+
     }
 
     public SendMessage getVolunteerHelp(Update update) {

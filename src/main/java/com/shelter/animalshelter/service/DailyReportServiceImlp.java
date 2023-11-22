@@ -36,9 +36,8 @@ public class DailyReportServiceImlp {
 //    @Scheduled(cron = "0 0 12 * * ?")
 //    public SendResponse reminderToSendDailyReport(Long chatId) {
 //        if ( )
-//    }
-
-
+//    }""Ы
+    @Scheduled(cron = "0 0 12 * * ?")
     public SendResponse postReport(Update update) {
         Long chatId = update.message().chat().id();
         DailyReport dailyReport = new DailyReport();
