@@ -45,7 +45,7 @@ public class Cat {
    // }
 
 
-    public Cat(Long cat_id, String name, Integer age, Boolean isHealthy, Boolean vaccinated) {
+    public Cat(String name, Integer age, Boolean isHealthy, Boolean vaccinated) {
         this.cat_id = cat_id;
         this.name = name;
         this.age = age;

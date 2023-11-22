@@ -27,54 +27,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Operation(
-            requestBody = @RequestBody,
-            summary = "Записывает данные пользователя в БД",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Возвращает объект созданного пользователя",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = User.class))
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Ошибка на стороне сервера"
-                    )
-            },
-            tags = "Users"
-    )
-    @PostMapping
-//    public ResponseEntity<User> createUser(@Parameter(name = "Объект пользователя") @org.springframework.web.bind.annotation.RequestBody User user) {
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.create(user));
-    }
-
-    @Operation(
-            requestBody = @RequestBody,
-            summary = "Редактирует данные пользователя в БД",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Возвращает объект редактируемого пользователя",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = User.class))
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Ошибка на стороне сервера"
-                    )
-            },
-            tags = "Users"
-    )
-    @PutMapping
-    public ResponseEntity<User> updateUser(@Parameter(name = "Объект пользователя") @RequestBody User user) {
-        return ResponseEntity.ok(userService.update(user));
-    }
 
     @Operation(
             summary = "Поиск пользователя в БД по id",

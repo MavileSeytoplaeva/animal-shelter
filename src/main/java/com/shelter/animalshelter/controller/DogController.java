@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import com.shelter.animalshelter.model.animals.Dog;
 import com.shelter.animalshelter.service.DogService;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("dogs")
+@RequestMapping("/dogs")
 @Tag(name = "Собаки", description = "CRUD-методы для работы с собаками")
 @RequiredArgsConstructor
 @ApiResponses(value = {
@@ -31,6 +29,17 @@ public class DogController {
         return dogService.getById(dog_id);
     }
 
+    @PostMapping
+    @Operation(summary = "Добавить собаку в приют")
+    public Dog create(
+            @RequestParam @Parameter(description = "Имя собаки") String name,
+            @RequestParam @Parameter(description = "Возраст") int age,
+            @RequestParam @Parameter(description = "Здоров?") boolean isHealthy,
+            @RequestParam @Parameter(description = "Привит?") boolean vaccinated)
+    {
+        return dogService.create(new Dog(name, age, isHealthy, vaccinated));
+    }
+
 
 
     @PutMapping
@@ -42,7 +51,7 @@ public class DogController {
             @RequestParam(required = false) @Parameter(description = "Здоров?") Boolean isHealthy,
             @RequestParam(required = false) @Parameter(description = "Привит?") Boolean vaccinated)
     {
-        return dogService.update(new Dog(dog_id, name, age, isHealthy, vaccinated));
+        return dogService.update(new Dog(name, age, isHealthy, vaccinated));
     }
 
     @DeleteMapping("/id")

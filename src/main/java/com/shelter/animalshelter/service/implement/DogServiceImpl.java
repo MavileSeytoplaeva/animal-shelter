@@ -1,5 +1,6 @@
 package com.shelter.animalshelter.service.implement;
 
+import com.shelter.animalshelter.model.animals.Cat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.shelter.animalshelter.exception.NotFoundException;
@@ -29,6 +30,10 @@ public class DogServiceImpl implements DogService {
         }
         return optionalCat.get();
     }
+    @Override
+    public List<Dog> getAll() {
+        return dogRepository.findAll();
+    }
 
 
 
@@ -41,11 +46,6 @@ public class DogServiceImpl implements DogService {
         Dog currentCat = dogId.get();
         EntityUtils.copyNonNullFields(dog, currentCat);
         return dogRepository.save(currentCat);
-    }
-
-    @Override
-    public List<Dog> getAll() {
-        return dogRepository.findAll();
     }
 
     @Override

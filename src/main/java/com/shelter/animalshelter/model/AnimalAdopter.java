@@ -24,5 +24,4 @@ public class AnimalAdopter {
     @Column(name = "took_animal")
     private boolean tookAnimal;
 
-
 }
