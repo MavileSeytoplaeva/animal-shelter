@@ -85,7 +85,7 @@ public class InfoHowToTakeAnimal {
         this.recForTransport = recForTransport;
     }
 
-    public void setHomeRecommendForSmall(String homeRecommendForSmall) {
+    public void TrialPeriod(String homeRecommendForSmall) {
         this.homeRecommendForSmall = homeRecommendForSmall;
     }
 
