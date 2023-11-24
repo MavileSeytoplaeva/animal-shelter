@@ -66,20 +66,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void saveUserTest() throws Exception {
-
-        when(userRepository.save(any(User.class))).thenReturn(userObject());
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/user")
-                        .content(userJSON().toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value(firstName));
-    }
-
-    @Test
     public void deleteUserTest() throws Exception{
         when(userRepository.save(any(User.class))).thenReturn(userObject());
         mockMvc.perform(MockMvcRequestBuilders

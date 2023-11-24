@@ -15,11 +15,9 @@ import java.util.regex.Pattern;
 @Service
 public class AnimalAdopterServiceImlp implements AnimalAdopterService {
     private AnimalAdopterRepository animalAdopterRepository;
-    private final TelegramBot telegramBot;
 
-    public AnimalAdopterServiceImlp(AnimalAdopterRepository animalAdopterRepository, TelegramBot telegramBot) {
+    public AnimalAdopterServiceImlp(AnimalAdopterRepository animalAdopterRepository) {
         this.animalAdopterRepository = animalAdopterRepository;
-        this.telegramBot = telegramBot;
     }
 
     @Override
