@@ -1,13 +1,17 @@
 package com.shelter.animalshelter.controller;
+import com.shelter.animalshelter.model.animals.Cat;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.shelter.animalshelter.model.animals.Dog;
 import com.shelter.animalshelter.service.DogService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/dogs")
@@ -23,10 +27,10 @@ public class DogController {
 
     private final DogService dogService;
 
-    @GetMapping("/id")
+    @GetMapping("/{dog_id}")
     @Operation(summary = "Получение собаки по ID")
-    public Dog getByDogId(@RequestParam @Parameter(description = "ID собаки") Long dog_id) {
-        return dogService.getById(dog_id);
+    public ResponseEntity<Dog> getByDogId(@PathVariable @Parameter(description = "ID собаки") Long dog_id) {
+        return ResponseEntity.ok(dogService.getById(dog_id));
     }
 
     @PostMapping
@@ -54,11 +58,20 @@ public class DogController {
         return dogService.update(new Dog(name, age, isHealthy, vaccinated));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{dog_id}")
     @Operation(summary = "Удаление собаки")
-    public String deleteById(@RequestParam Long dog_id) {
-        dogService.remove(dog_id);
-        return "Собаку исключили из приюта";
+    public ResponseEntity<String> deleteById(@PathVariable Long dog_id) {
+        try {
+            dogService.remove(dog_id);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("Собаку исключили из приюта");
+    }
+    @GetMapping
+    @Operation(summary = "Получение всех собак")
+    public ResponseEntity<List<Dog>> getAll() {
+        return ResponseEntity.ok(dogService.getAll());
     }
 
 }

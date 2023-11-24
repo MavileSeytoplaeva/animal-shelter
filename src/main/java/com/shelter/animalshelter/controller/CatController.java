@@ -1,13 +1,17 @@
 package com.shelter.animalshelter.controller;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.shelter.animalshelter.model.animals.Cat;
 import com.shelter.animalshelter.service.CatService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cats")
@@ -45,17 +49,15 @@ public class CatController {
 //    }
 
 
-
-       @PostMapping
-       @Operation(summary = "Добавить кота в приют")
-       public Cat create(
-               @RequestParam @Parameter(description = "Имя кота") String name,
-               @RequestParam @Parameter(description = "Возраст") int age,
-               @RequestParam @Parameter(description = "Здоров?") boolean isHealthy,
-               @RequestParam @Parameter(description = "Привит?") boolean vaccinated)
-                {
-           return catService.create(new Cat(name, age, isHealthy, vaccinated));
-       }
+    @PostMapping
+    @Operation(summary = "Добавить кота в приют")
+    public Cat create(
+            @RequestParam @Parameter(description = "Имя кота") String name,
+            @RequestParam @Parameter(description = "Возраст") int age,
+            @RequestParam @Parameter(description = "Здоров?") boolean isHealthy,
+            @RequestParam @Parameter(description = "Привит?") boolean vaccinated) {
+        return catService.create(new Cat(name, age, isHealthy, vaccinated));
+    }
 
     @PutMapping
     @Operation(summary = "Изменить информацию о коте")
@@ -64,25 +66,39 @@ public class CatController {
             @RequestParam(required = false) @Parameter(description = "Имя кота") String name,
             @RequestParam(required = false) @Parameter(description = "Возраст кота") Integer age,
             @RequestParam(required = false) @Parameter(description = "Здоров?") Boolean isHealthy,
-            @RequestParam(required = false) @Parameter(description = "Привит?") Boolean vaccinated)
-    {
+            @RequestParam(required = false) @Parameter(description = "Привит?") Boolean vaccinated) {
         return catService.update(new Cat(name, age, isHealthy, vaccinated));
     }
 
 
     private final CatService catService;
 
-    @GetMapping("/id")
+    //    @GetMapping("/id")
+//    @Operation(summary = "Получение кота по ID")
+//    public Cat getByCatId(@RequestParam @Parameter(description = "ID кота") Long cat_id) {
+//        return catService.getById(cat_id);
+//    }
+    @GetMapping("/{cat_id}")
     @Operation(summary = "Получение кота по ID")
-    public Cat getByCatId(@RequestParam @Parameter(description = "ID кота") Long cat_id) {
+    public Cat getByCatId(@PathVariable @Parameter(description = "ID кота") Long cat_id) {
         return catService.getById(cat_id);
     }
 
-    @DeleteMapping("/id")
+    @GetMapping
+    @Operation(summary = "Получение всех котов")
+    public ResponseEntity<List<Cat>> getAll() {
+        return ResponseEntity.ok(catService.getAll());
+    }
+
+    @DeleteMapping("/{cat_id}")
     @Operation(summary = "Удаление кота")
-    public String deleteById(@RequestParam Long cat_id) {
-        catService.remove(cat_id);
-        return "Кота выбросили на улицу";
+    public ResponseEntity<String> deleteById(@PathVariable Long cat_id) {
+        try {
+            catService.remove(cat_id);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("Кота выбросили на улицу");
     }
 
 }

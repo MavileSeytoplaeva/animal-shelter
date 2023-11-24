@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.shelter.animalshelter.model.animals.Cat;
 import com.shelter.animalshelter.model.shelters.CatShelter;
@@ -26,7 +27,7 @@ public class CatSheltersController {
 
     private final ShelterService<CatShelter, Cat> catShelterService;
 
-    @PostMapping("/")
+    @PostMapping()
     public CatShelter create(@RequestParam @Parameter(description = "Название приюта") String name,
                              @RequestParam @Parameter(description = "Адрес и схема проезда") String location,
                              @RequestParam @Parameter(description = "Расписание работы приюта") String timetable,
@@ -37,7 +38,7 @@ public class CatSheltersController {
         return catShelterService.addShelter(new CatShelter(name, location, timetable, aboutMe, security, safetyAdvice));
     }
 
-    @PutMapping("/")
+    @PutMapping()
     public CatShelter update(@RequestParam @Parameter(description = "id приюта") long id,
                              @RequestParam(required = false) @Parameter(description = "Название приюта") String name,
                              @RequestParam(required = false) @Parameter(description = "Адрес и схема проезда") String location,
@@ -49,25 +50,24 @@ public class CatSheltersController {
         return catShelterService.updateShelter(new CatShelter(id, name, location, timetable, aboutMe, security, safetyAdvice));
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public List<CatShelter> getAll() {
-        return catShelterService.getShelter();
+        return catShelterService.getAll();
     }
 
-    @GetMapping("/id{id}")
+    @GetMapping("/{id}")
     public CatShelter getShelterId(@PathVariable @Parameter(description = "id приюта") long id) {
         return (catShelterService.getSheltersId(id));
     }
 
-  //  @GetMapping("/list{id}")
-  //  public List<Cat> getAnimal(@PathVariable @Parameter(description = "id приюта") long id) {
-  //      return catShelterService.getAnimal(id);
-  //  }
-
     @DeleteMapping("/{id}")
-
-    public String delete(@PathVariable @Parameter(description = "id приюта") long id) {
-        return catShelterService.delShelter(id);
+    public ResponseEntity<Void> delete(@PathVariable @Parameter(description = "id приюта") long id) {
+        try {
+            catShelterService.delShelter(id);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
 }

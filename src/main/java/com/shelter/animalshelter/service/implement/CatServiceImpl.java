@@ -22,11 +22,7 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public Cat getById(Long cat_id) {
-        Optional<Cat> optionalCat = catRepository.findById(cat_id);
-        if (optionalCat.isEmpty()) {
-            throw new NotFoundException("Кот не найден!");
-        }
-        return optionalCat.get();
+        return catRepository.findById(cat_id).get();
     }
     @Override
     public List<Cat> getAll() {

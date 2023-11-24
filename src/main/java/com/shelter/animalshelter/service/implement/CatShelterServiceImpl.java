@@ -19,8 +19,6 @@ public class CatShelterServiceImpl implements ShelterService<CatShelter, Cat> {
 
 
     private final CatShelterRepository catRepository;
-    private final TelegramBot telegramBot;
-
     @Override
     public CatShelter addShelter(CatShelter shelter) {
         return catRepository.save(shelter);
@@ -52,7 +50,7 @@ public class CatShelterServiceImpl implements ShelterService<CatShelter, Cat> {
     }
 
     @Override
-    public List<CatShelter> getShelter() {
+    public List<CatShelter> getAll() {
         return catRepository.findAll();
     }
 
@@ -62,24 +60,12 @@ public class CatShelterServiceImpl implements ShelterService<CatShelter, Cat> {
    // }
 
     @Override
-    public String delShelter(long index) {
-        String result;
-        Optional<CatShelter> catShelter = catRepository.findById(index);
-        if (catShelter.isPresent()) {
-            catRepository.deleteById(index);
-            result = "Запись удалена";
-        } else {
-            throw new NotFoundException("Кошки остались без приюта. Не нашли приют");
-        }
-        return result;
+    public void delShelter(long id) {
+        catRepository.deleteById(id);
     }
 
-    @Override
-    public SendMessage getInfoAboutMe(Long chatId) {
-        String messeage = catRepository.getAboutMe();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getInfoAboutMe() {
+        return catRepository.getAboutMe();
     }
 
     @Override
@@ -92,31 +78,19 @@ public class CatShelterServiceImpl implements ShelterService<CatShelter, Cat> {
         return null;
     }
 
-    public SendMessage getLocation(Long chatId) {
-        String messeage = catRepository.getLocation();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getLocation() {
+        return catRepository.getLocation();
     }
 
-    public SendMessage getTimetable(Long chatId) {
-        String messeage = catRepository.getTimetable();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getTimetable() {
+        return catRepository.getTimetable();
     }
 
-    public SendMessage getSecurity(Long chatId) {
-        String messeage = catRepository.getSecurity();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getSecurity() {
+        return catRepository.getSecurity();
     }
 
-    public SendMessage getSafetyAdvice(Long chatId) {
-        String messeage = catRepository.getSafetyAdvice();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getSafetyAdvice() {
+        return catRepository.getSafetyAdvice();
     }
 }

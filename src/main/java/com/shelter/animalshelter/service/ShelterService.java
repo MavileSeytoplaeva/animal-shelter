@@ -23,7 +23,7 @@ public interface ShelterService<T, D> {
 
     //Выдача списка приютов
 
-    List<T> getShelter();
+    List<T> getAll();
 
     // Выдача списка животных приютов
 
@@ -32,10 +32,9 @@ public interface ShelterService<T, D> {
 
     //Удаление приюта
 
-    String delShelter(long index);
+    void delShelter(long index);
 
 
-    SendMessage getInfoAboutMe(Long chatId);
 
     CatShelter getAllCatShelterInfo();
 
