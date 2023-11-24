@@ -44,6 +44,16 @@ public class UpdateTextHandlerImpl {
         return null;
     }
 
+    /**
+     * The method receives the user's text message by update and extracts the phone number,
+     * email and name. Next, it writes the data to the database in the animal_adopter table.
+     * <br>
+     * Classes used {@link Pattern}, {@link Matcher}
+     * <br>
+     * {@link AnimalAdopterRepository} interface that is responsible for saving data in the database.
+     *
+     * @param update
+     */
     public void registerAdopter(Update update) {
         if (!(animalAdopterService.existsById(update.message().chat().id()))) {
             String messageText = update.message().text();
@@ -74,6 +84,16 @@ public class UpdateTextHandlerImpl {
             animalAdopterService.createAnimalAdopter(animalAdopter);
         }
     }
+    /**
+     * The method receives the user's chat id and checks if the user had left some information about him before.
+     * If not bot asks to write down information and then the method {registerAdopter} will write down the information.
+     * <br>
+     * If information was provided bot will ask the user to wait for the call.
+     * <br>
+     * {@link AnimalAdopterServiceImlp} is responsiblе for checkinf the user info int DB.
+     *
+     * @param chatId
+     */
     public SendMessage getVolunteerHelp(Long chatId) {
         if (animalAdopterService.existsById(chatId)) {
             SendMessage message = new SendMessage(chatId, "У нас есть ваши данные для связи с вами. Наш волонтер свяжется с вами в ближайшее время.");

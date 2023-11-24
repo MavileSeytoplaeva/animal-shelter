@@ -10,6 +10,7 @@ import com.pengrad.telegrambot.response.GetFileResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import com.shelter.animalshelter.model.DailyReport;
 import com.shelter.animalshelter.repository.DailyReportRepository;
+import com.shelter.animalshelter.service.implement.AnimalAdopterServiceImlp;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -33,10 +34,18 @@ public class DailyReportServiceImlp {
     @Value("${telegram.bot.token}")
     TelegramBot bot = new TelegramBot("${telegram.bot.token}");
 
-//    @Scheduled(cron = "0 0 12 * * ?")
-//    public SendResponse reminderToSendDailyReport(Long chatId) {
-//        if ( )
-//    }""Ы
+    /**
+     * The method receives the update and checks if the user had sent both a photo and the caption below.
+     * If not bot asks to send the photo both with the caption.
+     * <br>
+     * When photo is provided {@link PhotoSize} writes down the size of the photo. {@link Path} writes the path of the photo.
+     * <br>
+     * Trigger every day at 12a.m.
+     * The report is being saved to the DB.
+     * @throws IOException
+     *
+     * @param update
+     */
     @Scheduled(cron = "0 0 12 * * ?")
     public SendResponse postReport(Update update) {
         Long chatId = update.message().chat().id();

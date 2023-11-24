@@ -16,6 +16,6 @@ public interface AnimalAdopterService {
     void deleteAnimalAdopter(Long id);
     List<AnimalAdopter> getAllAdopters();
 
-    void registerAdopter(String messageText);
+
 
 }

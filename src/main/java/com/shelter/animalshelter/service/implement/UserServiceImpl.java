@@ -9,6 +9,7 @@ import com.shelter.animalshelter.model.User;
 import com.shelter.animalshelter.repository.UserRepository;
 import com.shelter.animalshelter.service.UserService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,14 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
-
+    /**
+     * The method is registers the user to the DB to designate the old user.
+     * It creates the object of {@link User} and sets all the fields.
+     * <br>
+     * {@link UserRepository} saves User to the DB.
+     *
+     * @param update
+     */
     @Override
     public void registerUser(Update update) {
         Long chatId = update.message().chat().id();

@@ -1,6 +1,7 @@
 package com.shelter.animalshelter.service;
 
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.shelter.animalshelter.model.AnimalAdopter;
 import com.shelter.animalshelter.model.animals.Cat;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Column;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 @Service
 public class TakeAnimalServiceImlp {
@@ -41,7 +44,13 @@ public class TakeAnimalServiceImlp {
         telegramBot.execute(message);
         return message;
     }
-
+    /**
+     * The method is used to set true in the field tookAnimal to designate that animalAdopter had taken an animal.
+     * It gets the object of animalAdopter from the DB and sets true to the field tookAnimal.
+     * <br>
+     * Then edits animalAdopter in the DB.
+     * @param chatId
+     */
     public void addTookAnimalField(Long chatId) {
         AnimalAdopter animalAdopter = animalAdopterService.findAnimalAdopter(chatId);
         animalAdopter.setTookAnimal(true);
