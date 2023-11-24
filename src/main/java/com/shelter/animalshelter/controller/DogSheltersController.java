@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.shelter.animalshelter.model.animals.Dog;
 import com.shelter.animalshelter.model.shelters.DogShelter;
@@ -27,7 +28,7 @@ public class DogSheltersController {
 
     private final ShelterService<DogShelter, Dog> dogShelterService;
 
-    @PostMapping("/")
+    @PostMapping
     @Operation(
             summary = "Регистрация нового собачьего приюта."
     )
@@ -41,7 +42,7 @@ public class DogSheltersController {
         return dogShelterService.addShelter(new DogShelter(name, location, timetable, aboutMe, security, safetyAdvice));
     }
 
-    @PutMapping("/")
+    @PutMapping
     @Operation(
             summary = "Обновление информации о приюте"
     )
@@ -62,12 +63,12 @@ public class DogSheltersController {
                 aboutMe, security, safetyAdvice)));
     }
 
-    @GetMapping("/")
+    @GetMapping
     @Operation(
             summary = "Список приютов"
     )
     public List<DogShelter> getAll() {
-        return dogShelterService.getShelter();
+        return dogShelterService.getAll();
     }
 
   //  @GetMapping("/list{id}")
@@ -78,7 +79,7 @@ public class DogSheltersController {
   //      return dogShelterService.getAnimal(id);
   //  }
 
-    @GetMapping("/id{id}")
+    @GetMapping("/{id}")
     @Operation(
             summary = "Поиск приюта по id"
     )
@@ -86,12 +87,17 @@ public class DogSheltersController {
         return (dogShelterService.getSheltersId(id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     @Operation(
             summary = "Удаление приюта"
     )
 
-    public String delete(@PathVariable @Parameter(description = "id приюта") long id) {
-        return dogShelterService.delShelter(id);
+    public ResponseEntity<Void> delete(@PathVariable @Parameter(description = "id приюта") long id) {
+        try {
+            dogShelterService.delShelter(id);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }

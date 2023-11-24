@@ -24,11 +24,8 @@ public class DogServiceImpl implements DogService {
 
     @Override
     public Dog getById(Long dog_id) {
-        Optional<Dog> optionalCat = dogRepository.findById(dog_id);
-        if (optionalCat.isEmpty()) {
-            throw new NotFoundException("Собака не найдена!");
-        }
-        return optionalCat.get();
+        return dogRepository.findById(dog_id).get();
+
     }
     @Override
     public List<Dog> getAll() {

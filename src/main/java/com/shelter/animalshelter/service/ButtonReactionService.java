@@ -58,29 +58,32 @@ public class ButtonReactionService {
                 return menuService.getInfoAboutShelter(chatId);
             case ABOUT_SHELTER:
                 if (isCat) {
-                    return catShelterService.getInfoAboutMe(chatId);
+                    return messageSender.sendMessage(chatId,  catShelterService.getInfoAboutMe());
+
                 } else
-                    return dogShelterService.getInfoAboutMe(chatId);
+                    return messageSender.sendMessage(chatId,  dogShelterService.getInfoAboutMe());
+
             case LOCATION:
                 if (isCat) {
-                    return catShelterService.getLocation(chatId);
+                    return messageSender.sendMessage(chatId,  catShelterService.getLocation());
+
                 } else
-                    return dogShelterService.getLocation(chatId);
+                    return messageSender.sendMessage(chatId,  dogShelterService.getLocation());
             case TIMETABLE:
                 if (isCat) {
-                    return catShelterService.getTimetable(chatId);
+                    return messageSender.sendMessage(chatId,  catShelterService.getTimetable());
                 } else
-                    return dogShelterService.getTimetable(chatId);
+                    return messageSender.sendMessage(chatId,  dogShelterService.getTimetable());
             case SECURITY:
                 if (isCat) {
-                    return catShelterService.getSecurity(chatId);
+                    return messageSender.sendMessage(chatId,  catShelterService.getSecurity());
                 } else
-                    return dogShelterService.getSecurity(chatId);
+                    return messageSender.sendMessage(chatId,  dogShelterService.getSecurity());
             case SAFETY_IN_SHELTER_TERRITORY:
                 if (isCat) {
-                    return catShelterService.getSafetyAdvice(chatId);
+                    return messageSender.sendMessage(chatId,  catShelterService.getSafetyAdvice());
                 } else
-                    return dogShelterService.getSafetyAdvice(chatId);
+                    return messageSender.sendMessage(chatId,  dogShelterService.getSafetyAdvice());
             case HOW_TO_TAKE_ANIMAL:
                 return menuService.getInfoAboutTakeAnimal(chatId);
             case GIVE_MY_CONTACT:

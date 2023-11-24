@@ -18,8 +18,6 @@ import java.util.Optional;
 public class DogShelterServiceImpl implements ShelterService<DogShelter,  Dog> {
 
     private final DogSheltersRepository dogRepository;
-    private final TelegramBot telegramBot;
-
 
     @Override
     public DogShelter addShelter(DogShelter shelter) {
@@ -52,35 +50,19 @@ public class DogShelterServiceImpl implements ShelterService<DogShelter,  Dog> {
     }
 
     @Override
-    public List<DogShelter> getShelter() {
+    public List<DogShelter> getAll() {
         return dogRepository.findAll();
     }
 
-  //  @Override
-  //  public List<Dog> getAnimal(long index) {
-  //      return getSheltersId(index).getList();
-  //  }
 
 
     @Override
-    public String delShelter(long index) {
-        String result;
-        Optional<DogShelter> dogShelter = dogRepository.findById(index);
-        if (dogShelter.isPresent()) {
-            dogRepository.deleteById(index);
-            result = "Запись удалена";
-        } else {
-            throw new NotFoundException("Собаки без приюта. Мы его не нашли(");
-        }
-        return result;
+    public void delShelter(long id) {
+        dogRepository.deleteById(id);
     }
 
-    @Override
-    public SendMessage getInfoAboutMe(Long chatId) {
-        String messeage = dogRepository.getAboutMe();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getInfoAboutMe() {
+        return dogRepository.getAboutMe();
     }
 
     @Override
@@ -93,29 +75,17 @@ public class DogShelterServiceImpl implements ShelterService<DogShelter,  Dog> {
         return dogRepository.getAllInfo();
     }
 
-    public SendMessage getLocation(Long chatId) {
-        String messeage = dogRepository.getLocation();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getLocation() {
+        return dogRepository.getLocation();
     }
 
-    public SendMessage getTimetable(Long chatId) {
-        String messeage = dogRepository.getTimetable();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getTimetable() {
+        return dogRepository.getTimetable();
     }
-    public SendMessage getSecurity(Long chatId) {
-        String messeage = dogRepository.getSecurity();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getSecurity() {
+        return dogRepository.getSecurity();
     }
-    public SendMessage getSafetyAdvice(Long chatId) {
-        String messeage = dogRepository.getSafetyAdvice();
-        SendMessage message = new SendMessage(chatId, messeage);
-        telegramBot.execute(message);
-        return message;
+    public String getSafetyAdvice() {
+        return dogRepository.getSafetyAdvice();
     }
 }
