@@ -59,30 +59,42 @@ public class UpdateTextHandlerImpl {
             String messageText = update.message().text();
             AnimalAdopter animalAdopter = new AnimalAdopter();
             animalAdopter.setId(update.message().chat().id());
+            animalAdopter.setName(getNameFromMessage(messageText));
+            animalAdopter.setPhoneNumber(getPhoneFromMessage(messageText));
+            animalAdopter.setEmail(getEmailFromMessage(messageText));
 
-            Pattern phoneNumberPattern1 = Pattern.compile("\\+7\\d{10}");
-            Matcher phoneNumberMatcher = phoneNumberPattern1.matcher(messageText);
-
-            if (phoneNumberMatcher.find()) {
-                String phoneNumber = phoneNumberMatcher.group(0);
-                animalAdopter.setPhoneNumber(Long.valueOf(phoneNumber));
-            }
-            Pattern messageTextPattern = Pattern.compile("[а-яА-ЯёЁ]+");
-            Matcher messageTextMatcher = messageTextPattern.matcher(messageText);
-
-            if (messageTextMatcher.find()) {
-                String text = messageTextMatcher.group(0);
-                animalAdopter.setName(text);
-            }
-            Pattern emailAddressPattern = Pattern.compile("\\w+@\\w+\\.\\w{2,}");
-            Matcher emailAddressMatcher = emailAddressPattern.matcher(messageText);
-
-            if (emailAddressMatcher.find()) {
-                String emailAddress = emailAddressMatcher.group(0);
-                animalAdopter.setEmail(emailAddress);
-            }
             animalAdopterService.createAnimalAdopter(animalAdopter);
         }
+    }
+    public String getNameFromMessage(String messageText) {
+        Pattern messageTextPattern = Pattern.compile("[а-яА-ЯёЁ]+");
+        Matcher messageTextMatcher = messageTextPattern.matcher(messageText);
+
+        if (messageTextMatcher.find()) {
+            String name = messageTextMatcher.group(0);
+            return name;
+        }
+        return null;
+    }
+    public Long getPhoneFromMessage(String messageText) {
+        Pattern phoneNumberPattern1 = Pattern.compile("\\+7\\d{10}");
+        Matcher phoneNumberMatcher = phoneNumberPattern1.matcher(messageText);
+
+        if (phoneNumberMatcher.find()) {
+            String phoneNumber = phoneNumberMatcher.group(0);
+            return Long.valueOf(phoneNumber);
+        }
+        return null;
+    }
+    public String getEmailFromMessage(String messageText) {
+        Pattern emailAddressPattern = Pattern.compile("\\w+@\\w+\\.\\w{2,}");
+        Matcher emailAddressMatcher = emailAddressPattern.matcher(messageText);
+
+        if (emailAddressMatcher.find()) {
+            String emailAddress = emailAddressMatcher.group(0);
+            return emailAddress;
+        }
+        return null;
     }
     /**
      * The method receives the user's chat id and checks if the user had left some information about him before.
