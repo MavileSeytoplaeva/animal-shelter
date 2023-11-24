@@ -107,6 +107,8 @@ public class ButtonReactionService {
                 return shelterInfoTakeAnimal.getRecForProvenDogHandlers(chatId);
             case REFUSE_REASONS:
                 return shelterInfoTakeAnimal.getReasonsForRefusal(chatId);
+            case REPORT_ANIMAL:
+                return messageSender.sendMessage(chatId, "Чтобы бот принял ваш отчет нужно прислать фотографию питомца, и в описании написать рацион животного, общее самочувствие и привыкание к новому месту, а также изменение в поведении. Напишите всё одним сообщением.");
             case TAKE_CAT:
                 if (isCat) {
                     takeAnimalService.getInfoAboutAllCats(chatId);
