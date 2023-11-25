@@ -5,18 +5,15 @@ import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.request.SendPhoto;
 import com.pengrad.telegrambot.response.GetFileResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import com.shelter.animalshelter.model.AnimalAdopter;
 import com.shelter.animalshelter.model.DailyReport;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import com.shelter.animalshelter.repository.DailyReportRepository;
 import com.shelter.animalshelter.service.implement.AnimalAdopterServiceImlp;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -82,7 +79,8 @@ public class DailyReportServiceImlp {
         LocalDate todayDate = LocalDate.now();
         LocalDate reportDate;
         LocalDate twoDaysFromReportDate;
-
+        LocalDate probationPeriod;
+        int additionalProbationPeriod = 14;
 
         for (AnimalAdopter animalAdopter : animalAdopterServiceImlp.getAll()) {
             if (animalAdopter.isTookAnimal()) {
@@ -100,80 +98,27 @@ public class DailyReportServiceImlp {
                         "отчёты уже более двух дней");
                 SendResponse response1 = bot.execute(messageText1);
                 return response1;
-
+            }
+            reportDate = dailyReportRepository.getDateByChatId(animalAdopter.getId());
+            probationPeriod = reportDate.plusDays(30);
+            if (probationPeriod.equals(todayDate)) {
+                SendMessage messageText2 = new SendMessage(animalAdopter.getId(), "Поздравляем! " +
+                        "Вы успешно прошли испытательный срок.");
+                SendResponse response2 = bot.execute(messageText2);
+                return response2;
+            } else if (!todayDate.equals(probationPeriod)) {
+                SendMessage messageText3 = new SendMessage(animalAdopter.getId(), "К сожалению, " +
+                        "вы не прошли испытательный срок. Пожалуйста, следуйте инструкциям для дальнейших шагов.");
+                SendResponse response3 = bot.execute(messageText3);
+                return response3;
             }
 
 
         }
         return null;
     }
-
-    public class AdoptionPeriod {
-        int probationPeriod = 30; // Испытательный срок в днях
-        int additionalProbationPeriod = 14; // Дополнительный испытательный срок в днях
-
-        boolean passedProbation = true; // Прошел ли усыновитель испытательный срок
-        boolean additionalTimeAssigned = true; // Назначено ли усыновителю дополнительное время испытательного срока
-
-            if(passedProbation &&!additionalTimeAssigned) {
-            System.out.println("Поздравляем! Вы успешно прошли испытательный срок.");
-        }
-            else if(additionalTimeAssigned)
-
-        {
-            System.out.println("Вам назначено дополнительное время испытательного срока на " + additionalProbationPeriod + " дней.");
-        } else
-
-        {
-            System.out.println("К сожалению, вы не прошли испытательный срок. Пожалуйста, следуйте инструкциям для дальнейших шагов.");
-        }
-    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    @Scheduled(cron = "@daily")
-//    private SendResponse sendWarning() {
-//        LocalDate todayDate = LocalDate.now();
-//        for (AnimalAdopter animalAdopter : animalAdopterServiceImlp.getAll()) {
-//            if (animalAdopter.isTookAnimal()) {
-//
-//                SendMessage messageText = new SendMessage(animalAdopter.getId(), "Пожалуйста, отправьте отчёт, " +
-//                        "отправьте одним сообщением фотографии и описание");
-//                SendResponse response = bot.execute(messageText);
-//
-//                return response;
-//            }
-//
-//            LocalDate twoDaysFromReportDate;
-//            if (twoDaysFromReportDate.equals(todayDate)) {
-//                SendMessage messageText1 = new SendMessage(animalAdopter.getId(), "Вы не отправляли " +
-//                        "отчёты уже более двух дней");
-//                SendResponse response1 = bot.execute(messageText1);
-//                LocalDate reportDate = dailyReportRepository.getDateByChatId(animalAdopter.getId());
-//                twoDaysFromReportDate = reportDate.plusDays(2);
-//                return response1;
-//            }
-//        }
-//    }
-//}
 
 
 
