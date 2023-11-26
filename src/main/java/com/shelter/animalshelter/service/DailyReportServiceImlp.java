@@ -74,11 +74,12 @@ public class DailyReportServiceImlp {
         return response;
     }
 
-    @Scheduled(cron = "@daily")
+    @Scheduled(cron = "0 0 12 * * ?")
     private SendResponse sendWarning() {
         LocalDate todayDate = LocalDate.now();
-        LocalDate reportDate;
-        LocalDate twoDaysFromReportDate;
+        LocalDate lastReportDate;
+        LocalDate firstReportDate;
+        LocalDate twoDaysFromLastReportDate;
         LocalDate probationPeriod;
         int additionalProbationPeriod = 14;
 
@@ -89,19 +90,23 @@ public class DailyReportServiceImlp {
                 SendResponse response = bot.execute(messageText);
                 return response;
             }
-            reportDate = dailyReportRepository.getDateByChatId(animalAdopter.getId());
-            twoDaysFromReportDate = reportDate.plusDays(2);
+            DailyReport lastDailyReport = dailyReportRepository.getLastDailyReportSent(animalAdopter.getId());
+            lastReportDate = lastDailyReport.getDate();
+//            reportDate = dailyReportRepository.getDateByChatId(animalAdopter.getId());
+            twoDaysFromLastReportDate = lastReportDate.plusDays(2);
 
 
-            if (twoDaysFromReportDate.equals(todayDate)) {
+            if (twoDaysFromLastReportDate.equals(todayDate)) {
                 SendMessage messageText1 = new SendMessage(animalAdopter.getId(), "Вы не отправляли " +
                         "отчёты уже более двух дней");
                 SendResponse response1 = bot.execute(messageText1);
                 return response1;
             }
-            reportDate = dailyReportRepository.getDateByChatId(animalAdopter.getId());
-            probationPeriod = reportDate.plusDays(30);
-            if (probationPeriod.equals(todayDate)) {
+//            reportDate = dailyReportRepository.getDateByChatId(animalAdopter.getId());
+            DailyReport firstDailyReport = dailyReportRepository.getFirstDailyReport(animalAdopter.getId());
+            probationPeriod = firstDailyReport.getDate().plusDays(30);
+            Long numberOfRecordsInTable = dailyReportRepository.getNumberOfRecords(animalAdopter.getId());
+            if ((probationPeriod.equals(todayDate) && numberOfRecordsInTable == 30) || numberOfRecordsInTable >= 30) {
                 SendMessage messageText2 = new SendMessage(animalAdopter.getId(), "Поздравляем! " +
                         "Вы успешно прошли испытательный срок.");
                 SendResponse response2 = bot.execute(messageText2);
@@ -112,8 +117,6 @@ public class DailyReportServiceImlp {
                 SendResponse response3 = bot.execute(messageText3);
                 return response3;
             }
-
-
         }
         return null;
     }
