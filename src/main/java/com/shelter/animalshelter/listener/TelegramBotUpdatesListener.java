@@ -10,6 +10,7 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import com.shelter.animalshelter.model.AnimalAdopter;
+import com.shelter.animalshelter.model.DailyReport;
 import com.shelter.animalshelter.repository.AnimalAdopterRepository;
 import com.shelter.animalshelter.repository.UserRepository;
 import com.shelter.animalshelter.service.*;
@@ -17,12 +18,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -85,5 +88,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+
+
+
+
+
 }
 

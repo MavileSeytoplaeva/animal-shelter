@@ -24,6 +24,12 @@ public class AnimalAdopterServiceImlp implements AnimalAdopterService {
     public AnimalAdopter createAnimalAdopter(AnimalAdopter animalAdopter) {
         return animalAdopterRepository.save(animalAdopter);
     }
+
+    @Override
+    public List<AnimalAdopter> getAll() {
+        return animalAdopterRepository.findAll();
+    }
+
     @Override
     public AnimalAdopter editAnimalAdopter(AnimalAdopter animalAdopter) {
         return animalAdopterRepository.save(animalAdopter);

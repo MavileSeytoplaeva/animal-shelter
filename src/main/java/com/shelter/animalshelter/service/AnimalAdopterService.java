@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface AnimalAdopterService {
     AnimalAdopter createAnimalAdopter(AnimalAdopter animalAdopter);
+    List<AnimalAdopter> getAllAdopters();
+    List<AnimalAdopter> getAll();
     AnimalAdopter editAnimalAdopter(AnimalAdopter animalAdopter);
 
     AnimalAdopter addTookAnimal(AnimalAdopter animalAdopter);
@@ -14,7 +16,6 @@ public interface AnimalAdopterService {
 
     boolean existsById(Long id);
     void deleteAnimalAdopter(Long id);
-    List<AnimalAdopter> getAllAdopters();
 
 
 
