@@ -1,39 +1,61 @@
-<h1>Telegram бот для приюта животных. Командный проект </h1>
-<h2>Animal-Shelter. Описание и цели.</h2>
-Телеграм-бот для приюта животных, который отвечает на вопросы пользователей о том, что нужно знать и уметь, чтобы забрать животное из приюта. 
-<br>
-Телеграмм-бот в течение испытательного срока принимает от новых хозяев ежедневные отчеты о том, как питомцы привыкают к новой обстановке.
-<br>
-Целью проекта является снятие нагрузки с сотрудников приюта, автоматизация процесса консультации новых клиентов приюта и помощь клиентов, которые забрали животное к себе.
-<br>
-Реализована следующая функциональность:
+Telegram Bot for an Animal Shelter – Team Project
+Animal-Shelter: Description and Goals
+A Telegram bot designed for an animal shelter that helps users by answering their questions about the requirements and procedures for adopting a pet.
 
-* выбор приюта: для кошек или для собак;
-* отправка ботом ответов на вопросы пользователей о приюте, правилах усыновления питомцев и т.д. (в зависимости от выбранного приюта);
-* кнопки для выбора команд/разделов;
-* сохранение фото и данных в БД;
-* возможность присылать отчеты о питомце;
-* ежедневное автоматическое напоминание об отправке отчёта;
+During the trial adoption period, the bot collects daily reports from new pet owners about how their pets are adjusting to their new home.
 
-**Команда проекта**
-* Сейтоплаева Мавиле, разработчик
-* Еремин Роман, разработчик
-* Шашкин Артём, разработчик
+The project aims to:
 
-**Запуск приложения**
-* Откройте проект в Вашей IDE;
-* В конфигурационном файле application.properties укажите ваши данные для доступа к базе данных;
-* В этом же файле укажите токен Telegram бота, на котором хотите запустить приложение;
-* Запустите метод main в файле AnimalShelterApplication.java; <br>
-Готово!<br>
+Reduce the workload on shelter staff.
 
+Automate the consultation process for new clients.
 
-**Используемые технологии**
-* Java 17;
-* Spring-boot;
-* Spring JPA;
-* Telegram API (Pengrad 6.6.1);
-* Maven;
-* Lombok;
-* PostgresSQL;
-* Liquibase.
+Support adopters who have taken an animal home.
+
+Implemented Features
+Shelter selection: Choose between a cat shelter or a dog shelter.
+
+Automated responses: The bot provides answers to user questions about the shelter, adoption rules, etc. (depending on the selected shelter).
+
+Interactive buttons: Users can navigate through sections using command buttons.
+
+Photo and data storage: Saves submitted photos and reports in a database.
+
+Pet reporting: Allows adopters to send updates about their pets.
+
+Daily reminders: Automatically sends reminders to submit reports.
+
+Project Team
+Seitoplaeva Mavile, Developer
+
+Eremin Roman, Developer
+
+Shashkin Artem, Developer
+
+Launching the Application
+Open the project in your IDE.
+
+In the application.properties configuration file, specify your database access credentials.
+
+In the same file, enter the Telegram bot token where you want to run the application.
+
+Run the main method in AnimalShelterApplication.java.
+
+Done!
+
+Technologies Used
+Java 17
+
+Spring Boot
+
+Spring JPA
+
+Telegram API (Pengrad 6.6.1)
+
+Maven
+
+Lombok
+
+PostgreSQL
+
+Liquibase
